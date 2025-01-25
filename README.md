@@ -1,3 +1,5 @@
+To contribute new code, create a branch with the naming format "FIRSTNAME-BRANCH-REASON" (for example, winson-cot-prompts).
+
 # Project Setup
 
 ## 1. Obtain OpenAI API Key
