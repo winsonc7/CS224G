@@ -26,10 +26,18 @@ Install the Python openai library. Run:
 
 ## 1. Start the Backend
 
-To run the agent, simply run:
+To run the agent, follow these steps:
 
-  ```bash
-  python -m backend.run
-  ```
+1. Navigate to the `backend` directory:
+
+   ```bash
+   cd backend
+   ```
+
+2. Run the agent with:
+
+   ```bash
+   python run.py
+   ```
 
 ---
