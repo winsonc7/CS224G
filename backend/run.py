@@ -1,6 +1,6 @@
 import openai
 import os
-from basic_prompts import systemprompt_v0
+import basic_prompts as bp
 
 # Load the API key from .env file
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -9,7 +9,8 @@ def main():
     print("Hi, I'm Talk2Me! What's on your mind? Type 'exit' to quit.\n")
 
     # Initialize the conversation with a system message
-    conversation = [{"role": "system", "content": systemprompt_v0()}]
+    final_sys_prompt = bp.systemprompt_v0() + bp.robust_v0()
+    conversation = [{"role": "system", "content": final_sys_prompt}]
 
     while True:
         # Get user input
