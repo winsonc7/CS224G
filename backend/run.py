@@ -1,15 +1,21 @@
-import openai
 import os
+
+import openai
+from openai import OpenAI
+from dotenv import load_dotenv
+
 from basic_prompts import systemprompt_v0
 
+
+load_dotenv()
 # Load the API key from .env file
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 def main():
     print("Hi, I'm Talk2Me! What's on your mind? Type 'exit' to quit.\n")
 
     # Initialize the conversation with a system message
-    conversation = [{"role": "system", "content": systemprompt_v0()}]
+    conversation = [{"role": "developer", "content": systemprompt_v0()}]
 
     while True:
         # Get user input
@@ -24,13 +30,13 @@ def main():
 
         # Get response from OpenAI API
         try:
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=conversation
             )
 
             # Extract the chatbot's response
-            bot_reply = response['choices'][0]['message']['content']
+            bot_reply = response.choices[0].message.content
             print(f"Talk2Me: {bot_reply}")
             
             # Add chatbot response to the conversation
