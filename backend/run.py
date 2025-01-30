@@ -38,7 +38,7 @@ def main():
     if not system_prompt:
         print("Goodbye!")
         return
-    system_prompt = system_prompt + robust_v0
+    system_prompt = system_prompt + robust_v0()
     conversation = [{"role": "developer", "content": system_prompt}]
     print("Talk2Me: What's on your mind?")
 
