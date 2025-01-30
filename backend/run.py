@@ -4,7 +4,7 @@ import openai
 from openai import OpenAI
 from dotenv import load_dotenv
 
-from basic_prompts import systemprompt_v0, cbtprompt_v0
+from basic_prompts import systemprompt_v0, cbtprompt_v0, robust_v0
 
 
 load_dotenv()
@@ -38,6 +38,7 @@ def main():
     if not system_prompt:
         print("Goodbye!")
         return
+    system_prompt = system_prompt + robust_v0()
     conversation = [{"role": "developer", "content": system_prompt}]
     print("Talk2Me: What's on your mind?")
 
