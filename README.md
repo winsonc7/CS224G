@@ -1,7 +1,8 @@
 Hi! 👋 We’re building Talk2Me, an affordable AI therapy solution which can serve as an on-demand, low-cost resource for crisis support, emotional expression, and preliminary mental health insights. Continue reading to learn how to run our agent!
 
 Info on general sprint progress and individual contributions are in the `progress` folder.
-Sprint 1 progress and contributions: 
+
+[Link to Sprint 1 progress and contributions](https://github.com/winsonc7/CS224G/blob/main/progress/SPRINT_ONE.md)
 
 # Project Setup 🤖
 
@@ -37,17 +38,11 @@ To run the agent, you'll need a OpenAI API key.
   
 ## 2. Install Dependencies
 
-Install the Python openai library. Run:
+Install the Python OpenAI and python-dotenv libraries if you haven't already. Run:
 
   ```bash
-  pip install openai
+  pip install openai python-dotenv
   ```
-
-Install the python-dotenv library. Run:
-  ```bash
-  pip install python-dotenv
-  ```
-
 ---
 
 # Running the Agent
@@ -72,5 +67,5 @@ To run the agent, follow these steps:
 # Developer Culture 🔧
 - If you’re working on a task, create an issue for it and assign it to yourself. Write updates as comments on your issue until you complete your task, upon which you can close your issue.
 - If you’re writing new code, create a branch with the naming format "FIRSTNAME-BRANCH-REASON" (for example, winson-cot-prompts).
-- The main branch should ideally never have any bugs, and represents our overall progress. Commits should only be pushed to main in the cases of (1) minor bug fixes or (2) markdown file updates.
+- The main branch should ideally never have any bugs, and represents our overall progress. **Commits should only be pushed to main in the cases of (1) minor bug fixes or (2) markdown file updates.**
 - When you want to merge your changes to main, submit a pull request and have another team member review your code prior to completing the merge. For cleanliness, make sure to delete your branch after it's been merged.
