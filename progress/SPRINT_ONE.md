@@ -22,7 +22,7 @@
 ### Sneha Jayaganthan
 - Wrote research report on most common therapy / mental health needs
 - Implemented crisis detection protocol and sentiment analysis 
- - Finished in local branch, but not yet merged into main
+  - Finished in local branch, but not yet merged into main
 - Main contributer to sprint presentation slides
 
 ### Amelia Kuang
@@ -33,4 +33,4 @@
 ### Max Meyberg
 - Wrote research report on traditional therapy responsibilities / techniques
 - Building UI for therapy chat function
- - In progress: running into dependency issues and other bugs
+  - In progress: running into dependency issues and other bugs
