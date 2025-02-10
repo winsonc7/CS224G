@@ -36,12 +36,26 @@ To run the agent, you'll need a OpenAI API key.
 
 - `.gitignore` file is already set up to ignore `.env` file by Git
   
-## 2. Install Dependencies
+## 2. Install Dependencies w/ Poetry
 
-Install the Python OpenAI and python-dotenv libraries if you haven't already. Run:
+This project manages dependencies using Poetry. Follow these steps:
+
+### a. Install Poetry (if not already installed)
+
+If Poetry is not installed, you can install it globally using the following command:
 
   ```bash
-  pip install openai python-dotenv
+  curl -sSL https://install.python-poetry.org | python3 -
+  ```
+
+If you run into issues, check out the [Poetry docs](https://python-poetry.org/docs/#installing-with-the-official-installer) for help.
+
+### b. Install / update dependencies
+
+Install all project dependencies by running:
+
+  ```bash
+  poetry install
   ```
 ---
 
@@ -57,12 +71,13 @@ To run the agent, follow these steps:
    cd backend
    ```
 
-2. Run the agent with:
+2. Run the agent in Poetry's virtual environment:
 
    ```bash
-   python run.py
+   poetry run python run.py
    ```
-   Press Ctrl+C or type 'exit' to quit.
+  
+3. To quit, press Ctrl+C or type 'exit'.
 ---
 # Developer Culture 🔧
 - If you’re working on a task, create an issue for it and assign it to yourself. Write updates as comments on your issue until you complete your task, upon which you can close your issue.
