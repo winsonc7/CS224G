@@ -4,7 +4,7 @@ import re
 from basic_prompts import systemprompt_v0
 
 # Load OpenAI API Key
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "INSERT OPENAI KEY"
 
 # Create an OpenAI client instance 
 client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
