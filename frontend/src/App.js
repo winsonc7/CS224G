@@ -17,7 +17,7 @@ function App() {
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSend = (text) => {
+  const handleSend = async (text) => {
     if (!text.trim()) return;
 
     const newMessage = { message: text, sender: "user", timestamp: new Date() };
@@ -25,16 +25,38 @@ function App() {
     setMessages(newMessages);
     setIsTyping(true);
 
-    // Simulate bot response
-    setTimeout(() => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/chat', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: text,
+          sessionId: 'default'
+        })
+      });
+
+      const data = await response.json();
       const botMessage = {
-        message: "I'm processing your request. This is a placeholder response while we develop the actual AI functionality.",
+        message: data.message,
         sender: "bot",
         timestamp: new Date()
       };
       setMessages([...newMessages, botMessage]);
+    } catch (error) {
+      console.error('Error:', error);
+      const errorMessage = {
+        message: "Sorry, I'm having trouble connecting to the server.",
+        sender: "bot",
+        timestamp: new Date()
+      };
+      setMessages([...newMessages, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   return (
