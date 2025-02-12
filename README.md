@@ -8,8 +8,9 @@ Info on general sprint progress and individual contributions are in the `progres
 
 ## 1. Obtain OpenAI/ElevenLabs API keys and set ElevenLabs audio agent ID
 
-To run the agent, you'll need a OpenAI API key, ElevenLabs API key, and set the audio agent ID: (aB08fUqZnmePxNvmkWTM)
-The audio agent is configured at [https://elevenlabs.io/app/talk-to?agent_id=aB08fUqZnmePxNvmkWTM]
+To run the agent, you'll need a OpenAI API key, ElevenLabs API key, and set the audio agent ID (aB08fUqZnmePxNvmkWTM).
+
+Chat with the agent directly in the browser [here](https://elevenlabs.io/app/talk-to?agent_id=aB08fUqZnmePxNvmkWTM)
 
 ### a. Run the following commands in your shell to set the API key:
 
@@ -26,9 +27,11 @@ The audio agent is configured at [https://elevenlabs.io/app/talk-to?agent_id=aB0
   For a more permanent and secure setup, you can store your API key in a `.env` file and manage through the `python-dotenv` library. Follow these steps:
 
 - Create a .env file
+
   At the root of this repository, create a file named `.env`
 
 - Add the API Key to `.env`
+
   Open the `.env` file in a text editor and add the following line:
 
   ```
@@ -70,7 +73,7 @@ Install all project dependencies by running:
 
 To run the agent, follow these steps:
 
-1. Ensure you're in the root directory (to properly load .env file in the code) and run the agent in Poetry's virtual environment:
+1. Ensure you're in the root directory (for .env to properly load in the code) and run the agent in Poetry's virtual environment:
 
    ```bash
    poetry run python backend/run.py
