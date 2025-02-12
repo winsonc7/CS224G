@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -8,25 +8,14 @@ import {
   MessageInput,
   TypingIndicator,
   ConversationHeader,
-  Avatar,
-  Status,
 } from "@chatscope/chat-ui-kit-react";
 import "./App.css";
 
 function App() {
   const [messages, setMessages] = useState([
-    { message: "Hello! I'm your AI assistant. How can I help you today?", sender: "bot" },
+    { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const [isOnline, setIsOnline] = useState(true);
-
-  useEffect(() => {
-    // Simulate random online status changes
-    const interval = setInterval(() => {
-      setIsOnline(prev => !prev);
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSend = (text) => {
     if (!text.trim()) return;
@@ -54,17 +43,12 @@ function App() {
         <MainContainer>
           <ChatContainer>
             <ConversationHeader>
-              <Avatar src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='20' fill='%238B5CF6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-family='Arial' font-size='20' font-weight='bold'%3EAI%3C/text%3E%3C/svg%3E" name="AI Assistant" style={{ width: 40, height: 40 }} />
               <ConversationHeader.Content 
-                userName="AI Assistant"
-                info={isOnline ? "Online" : "Offline"}
+                userName="Talk2Me"
               />
-              <ConversationHeader.Actions>
-                <Status status={isOnline ? "available" : "unavailable"} />
-              </ConversationHeader.Actions>
             </ConversationHeader>
             <MessageList 
-              typingIndicator={isTyping ? <TypingIndicator content="AI is thinking..." /> : null}
+              typingIndicator={isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null}
               className="message-list"
             >
               {messages.map((msg, i) => (
@@ -77,7 +61,7 @@ function App() {
                     position: "single"
                   }}
                 >
-                  <Message.Header sender={msg.sender === "bot" ? "AI Assistant" : "You"} />
+                  <Message.Header sender={msg.sender === "bot" ? "Talk2Me" : "You"} />
                 </Message>
               ))}
             </MessageList>
