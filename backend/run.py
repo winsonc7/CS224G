@@ -5,6 +5,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 from basic_prompts import systemprompt_v0, cbtprompt_v0, robust_v0
+from diagnosis_prompts import legal_disclaimer_prompt
+from diagnosis_matching import detect_diagnosis_request, get_user_confirmation
 
 
 load_dotenv()
@@ -49,9 +51,33 @@ def main():
         if user_input.lower() == "exit":
             print("Goodbye!")
             break
-        
+
         # Add user message to the conversation
         conversation.append({"role": "user", "content": user_input})
+        
+        # diagnosis request detection
+        if detect_diagnosis_request(user_input, client):
+
+            # Show legal disclaimer
+            print(f"Talk2Me: {legal_disclaimer_prompt()}")
+            conversation.append({"role": "assistant", "content": legal_disclaimer_prompt()})
+
+            # Get user confirmation to proceed
+            user_response = input("You: ")
+            conversation.append({"role": "user", "content": user_input})
+
+            if get_user_confirmation(user_response, client):
+                pass
+                # TODO: Proceed with symptom analysis
+                # refine user confirmation prompting
+                # Analyze conversation history for symptoms
+                # Provide structured response
+            else: 
+                print("Talk2Me: I understand. Let's continue our conversation. What's on your mind?")
+                user_response = input("You: ")
+                conversation.append({"role": "user", "content": user_input})
+
+        
 
         # Get response from OpenAI API
         try:
