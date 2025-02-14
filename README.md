@@ -6,33 +6,41 @@ Info on general sprint progress and individual contributions are in the `progres
 
 # Project Setup 🤖
 
-## 1. Obtain OpenAI API key
+## 1. Obtain OpenAI/ElevenLabs API keys and set ElevenLabs audio agent ID
 
-To run the agent, you'll need a OpenAI API key.
+To run the agent, you'll need a OpenAI API key, ElevenLabs API key, and set the audio agent ID (aB08fUqZnmePxNvmkWTM).
 
-### a. Run the following command in your shell to set the API key:
+Chat with the agent directly in the browser [here](https://elevenlabs.io/app/talk-to?agent_id=aB08fUqZnmePxNvmkWTM)
+
+### a. Run the following commands in your shell to set the API key:
 
   ```bash
   export OPENAI_API_KEY=xxxxx
+  export ELEVENLABS_API_KEY=xxxxx
+  export ELEVENLABS_AGENT_ID=aB08fUqZnmePxNvmkWTM
   ```
 
-  Replace `xxxxx` with your actual API key.
+  Replace `xxxxx` with your actual API keys.
 
-### b.  Save the API key in a .env file
+### b.  Save the API keys and audio agent ID in a .env file
 
   For a more permanent and secure setup, you can store your API key in a `.env` file and manage through the `python-dotenv` library. Follow these steps:
 
 - Create a .env file
+
   At the root of this repository, create a file named `.env`
 
 - Add the API Key to `.env`
+
   Open the `.env` file in a text editor and add the following line:
 
   ```
   OPENAI_API_KEY=xxxxx
+  ELEVENLABS_API_KEY=xxxxx
+  ELEVENLABS_AGENT_ID=aB08fUqZnmePxNvmkWTM
   ```
 
-  Replace `xxxxx` with your actual API key.
+  Replace `xxxxx` with your actual API keys.
 
 - `.gitignore` file is already set up to ignore `.env` file by Git
   
@@ -55,7 +63,7 @@ If you run into issues, check out the [Poetry docs](https://python-poetry.org/do
 Install all project dependencies by running:
 
   ```bash
-  poetry install
+  poetry install --no-root
   ```
 ---
 
@@ -65,19 +73,13 @@ Install all project dependencies by running:
 
 To run the agent, follow these steps:
 
-1. Navigate to the `backend` directory:
+1. Ensure you're in the root directory (for .env to properly load in the code) and run the agent in Poetry's virtual environment:
 
    ```bash
-   cd backend
-   ```
-
-2. Run the agent in Poetry's virtual environment:
-
-   ```bash
-   poetry run python run.py
+   poetry run python backend/run.py
    ```
   
-3. To quit, press Ctrl+C or type 'exit'.
+2. To quit, press Ctrl+C or type 'exit'.
 ---
 # Developer Culture 🔧
 - If you’re working on a task, create an issue for it and assign it to yourself. Write updates as comments on your issue until you complete your task, upon which you can close your issue.
