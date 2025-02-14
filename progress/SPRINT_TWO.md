@@ -31,8 +31,10 @@
 ### Amelia Kuang
 - Implemented voice solutions into terminal demo
   - Integrated ElevenLabs speech-to-text and text-to-speech APIs
-  - Updated README and backend structure to accommodate speech capabilities
+  - Created voice therapist with ElevenLabs conversational AI agent with engineered prompts (CBT-style response, guardrails against prompt injection and unhappy paths, and proper responses based on classification of user's intent into dire and common cases)
+  - Updated README and refactored backend code to accommodate speech capabilities
 - Contributed to sprint presentation slides
+  - Recorded a demo video to showcase voice-enabled, low-latency AI thearpy interactions
 
 ### Max Meyberg
 - Tried debugging React Native UI for therapy chat function
