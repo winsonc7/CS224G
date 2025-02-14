@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-from basic_prompts import cbtprompt_v0, robust_v0
+from prompts import cbtprompt_v0, robust_v0
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -15,6 +15,15 @@ client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 conversations = {}
 
 def get_ai_response(conversation):
+    """
+    Generate an AI response using OpenAI's chat completion API.
+    
+    Args:
+        conversation (list): List of message dictionaries containing the conversation history
+        
+    Returns:
+        str: The AI's response text, or error message if the API call fails
+    """
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -26,6 +35,18 @@ def get_ai_response(conversation):
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
+    """
+    Handle chat messages from the client.
+    
+    Expects JSON payload with:
+        - sessionId (str): Unique identifier for the chat session
+        - message (str): User's message
+        
+    Returns:
+        JSON containing:
+        - message (str): AI's response
+        - sessionId (str): Session identifier
+    """
     data = request.json
     session_id = data.get('sessionId', 'default')
     user_message = data.get('message')
@@ -45,6 +66,15 @@ def chat():
 
 @app.route('/api/reset', methods=['POST'])
 def reset_conversation():
+    """
+    Reset a conversation session.
+    
+    Expects JSON payload with:
+        - sessionId (str): Session to reset
+        
+    Returns:
+        JSON with status: 'success' if session was reset
+    """
     data = request.json
     session_id = data.get('sessionId', 'default')
     if session_id in conversations:

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Main React component for the Talk2Me therapy chatbot application.
+ * This component implements a chat interface using the chatscope UI kit,
+ * providing real-time interaction with the therapy chatbot.
+ */
+
 import React, { useState } from "react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
@@ -11,12 +17,25 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import "./App.css";
 
+/**
+ * Main application component that renders the chat interface
+ * and handles message exchange with the backend server.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered chat interface
+ */
 function App() {
   const [messages, setMessages] = useState([
     { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
+  /**
+   * Handles sending messages to the backend server and updating the chat UI.
+   * 
+   * @param {string} text - The message text to send
+   * @returns {Promise<void>}
+   */
   const handleSend = async (text) => {
     if (!text.trim()) return;
 

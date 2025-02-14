@@ -8,17 +8,19 @@ from elevenlabs.conversational_ai.conversation import Conversation, ClientTools
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from dotenv import load_dotenv
 
-from basic_prompts import systemprompt_v0, cbtprompt_v0, robust_v0
+from prompts import systemprompt_v0, cbtprompt_v0, robust_v0
 
 load_dotenv()
 
 class TherapyMode:
-    TEXT = "text"
-    VOICE = "voice"
+    """Constants for therapy interaction modes."""
+    TEXT = "text"   # Text-based chat interaction
+    VOICE = "voice" # Voice-based conversation
 
 class TherapyStyle:
-    GENERAL = "1"
-    CBT = "2"
+    """Constants for therapy styles."""
+    GENERAL = "1"  # General counseling approach
+    CBT = "2"      # Cognitive Behavioral Therapy approach
 
 def setup_clients():
     """Initialize OpenAI and ElevenLabs clients"""
@@ -73,11 +75,23 @@ Enter T1/T2 for text mode or V for voice mode (or 'exit'): """
         print("Invalid choice. Please try again.")
 
 def handle_voice_therapy(audio_client, audio_agent_id):
+    """Handle voice-based therapy session using ElevenLabs.
+    
+    Sets up a voice conversation with real-time transcription and synthesis.
+    The session continues until interrupted with Ctrl+C.
+    
+    Args:
+        audio_client (ElevenLabs): Initialized ElevenLabs client
+        audio_agent_id (str): ID of the ElevenLabs voice agent to use
+        
+    Returns:
+        None
+    """
     """Handle voice-based therapy session"""
     conversation = Conversation(
         audio_client,
         audio_agent_id,
-        requires_auth=True,
+        requires_auth=False,
         audio_interface=DefaultAudioInterface(),
         callback_agent_response=lambda response: print(f"Talk2Me: {response}"),
         callback_agent_response_correction=lambda original, corrected: print(f"Talk2Me: {original} -> {corrected}"),
@@ -90,6 +104,18 @@ def handle_voice_therapy(audio_client, audio_agent_id):
     print(f"Conversation ID: {conversation_id}")
 
 def handle_text_therapy(system_prompt, chat_client):
+    """Handle text-based therapy session using OpenAI.
+    
+    Maintains a conversation with the user through text input/output.
+    The session continues until the user types 'exit'.
+    
+    Args:
+        system_prompt (str): Initial system prompt defining therapy style
+        chat_client (OpenAI): Initialized OpenAI client
+        
+    Returns:
+        None
+    """
     """Handle text-based therapy session"""
     conversation = [{"role": "developer", "content": system_prompt + robust_v0()}]
     print("\nTalk2Me: What would you like to talk about?")
