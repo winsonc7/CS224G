@@ -77,7 +77,7 @@ def handle_voice_therapy(audio_client, audio_agent_id):
     conversation = Conversation(
         audio_client,
         audio_agent_id,
-        requires_auth=True,
+        requires_auth=False,
         audio_interface=DefaultAudioInterface(),
         callback_agent_response=lambda response: print(f"Talk2Me: {response}"),
         callback_agent_response_correction=lambda original, corrected: print(f"Talk2Me: {original} -> {corrected}"),
