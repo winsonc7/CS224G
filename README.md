@@ -106,6 +106,8 @@ poetry run python prototype/run.py
 ```
 From then on, follow the instructions in the terminal. Press Ctrl+C or type 'exit' to quit.
 
+**Note: If testing voice therapy, we highly recommend wearing headphones so the voice agent doesn't mistake its own audio as you talking.**
+
 ---
 # Developer Culture 🔧
 - If you’re working on a task, create an issue for it and assign it to yourself. Write updates as comments on your issue until you complete your task, upon which you can close your issue.
