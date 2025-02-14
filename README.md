@@ -2,51 +2,45 @@ Hi! 👋 We’re building Talk2Me, an affordable AI therapy solution which can s
 
 Info on general sprint progress and individual contributions are in the `progress` folder.
 
-[Link to Sprint 1 progress and contributions](https://github.com/winsonc7/CS224G/blob/main/progress/SPRINT_ONE.md)
+[Link to Sprint 2 progress and contributions](https://github.com/winsonc7/CS224G/blob/main/progress/SPRINT_TWO.md)
 
 # Project Setup 🤖
 
-## 1. Obtain OpenAI/ElevenLabs API keys and set ElevenLabs audio agent ID
+## 1. Clone repo
 
-To run the agent, you'll need a OpenAI API key, ElevenLabs API key, and set the audio agent ID (aB08fUqZnmePxNvmkWTM).
+To begin, clone the repository to your local machine using the following command:
+```bash
+  git clone https://github.com/winsonc7/CS224G.git
+```
 
-Chat with the agent directly in the browser [here](https://elevenlabs.io/app/talk-to?agent_id=aB08fUqZnmePxNvmkWTM)
+## 2. Set up environment variables
 
-### a. Run the following commands in your shell to set the API key:
+### a. Obtain OpenAI/ElevenLabs API keys and set ElevenLabs audio agent ID
 
-  ```bash
-  export OPENAI_API_KEY=xxxxx
-  export ELEVENLABS_API_KEY=xxxxx
-  export ELEVENLABS_AGENT_ID=aB08fUqZnmePxNvmkWTM
-  ```
-
-  Replace `xxxxx` with your actual API keys.
+To run the agent, you'll need an OpenAI API key. You'll also need an ElevenLabs API key if testing our voice therapy solution.
 
 ### b.  Save the API keys and audio agent ID in a .env file
 
-  For a more permanent and secure setup, you can store your API key in a `.env` file and manage through the `python-dotenv` library. Follow these steps:
+  Store your API keys and our ElevenLabs Agent ID (aB08fUqZnmePxNvmkWTM) in a `.env` file. Follow these steps:
 
 - Create a .env file
 
   At the root of this repository, create a file named `.env`
 
-- Add the API Key to `.env`
+- Add API Keys to `.env`
 
-  Open the `.env` file in a text editor and add the following line:
+  Open the `.env` file in a text editor and add the following lines:
 
   ```
   OPENAI_API_KEY=xxxxx
   ELEVENLABS_API_KEY=xxxxx
   ELEVENLABS_AGENT_ID=aB08fUqZnmePxNvmkWTM
   ```
-
   Replace `xxxxx` with your actual API keys.
-
-- `.gitignore` file is already set up to ignore `.env` file by Git
   
-## 2. Install Dependencies w/ Poetry
+## 3. Install Backend Dependencies
 
-This project manages dependencies using Poetry. Follow these steps:
+This project manages backend Python dependencies using Poetry. Follow these steps:
 
 ### a. Install Poetry (if not already installed)
 
@@ -67,19 +61,51 @@ Install all project dependencies by running:
   ```
 ---
 
-# Running the Agent
+# Run our Talk2Me app 💬:
 
-## 1. Start the Backend
+Our app currently allows you to text our agent in a basic chatroom UI.
 
-To run the agent, follow these steps:
+## 1. Start the Flask server
 
-1. Ensure you're in the root directory (for .env to properly load in the code) and run the agent in Poetry's virtual environment:
+In your terminal, navigate to the project root directory and run the following command to start the Flask server:
+```bash
+poetry run python backend/app.py
+```
+## 2. Start the UI
 
-   ```bash
-   poetry run python backend/run.py
-   ```
-  
-2. To quit, press Ctrl+C or type 'exit'.
+Open a new terminal window and navigate to the `frontend` directory:
+```bash
+cd frontend
+```
+Install the frontend dependencies by running:
+```bash
+npm install
+```
+Then, start the React development server:
+```bash
+npm start
+```
+This will open the app in your browser at `http://localhost:3000/`.
+
+## 3. Start Chatting!
+
+You should now be able to chat with our agent through the UI. If the agent isn't responding as expected, double-check that the Flask server is still running.
+
+---
+
+# Run our Multimodal Agent Prototype ⚙️:
+
+We experiment with new prompts, features, etc. using our terminal prototype in the `prototype` folder. Our latest experiments feature
+voice therapy solutions using ElevenLabs APIs.
+
+(Aside: Chat with our voice agent directly in the browser [here](https://elevenlabs.io/app/talk-to?agent_id=aB08fUqZnmePxNvmkWTM))
+
+To run the agent, make sure you're in the root directory and run:
+```bash
+poetry run python prototype/run.py
+```
+From then on, follow the instructions in the terminal. Press Ctrl+C or type 'exit' to quit.
+
 ---
 # Developer Culture 🔧
 - If you’re working on a task, create an issue for it and assign it to yourself. Write updates as comments on your issue until you complete your task, upon which you can close your issue.
