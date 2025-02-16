@@ -66,9 +66,27 @@ function App() {
       }
 
       const data = await response.json();
+
+      console.log(data);
       
       if (data.therapistImage) {
         setCurrentTherapistImage(data.therapistImage);
+      }
+
+      // Updated audio handling
+      if (data.audioData) {
+        const audioBlob = new Blob(
+          [Uint8Array.from(atob(data.audioData), c => c.charCodeAt(0))],
+          { type: 'audio/mpeg' }
+        );
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        audio.onended = () => {
+          URL.revokeObjectURL(audioUrl); // Clean up the URL after playing
+        };
+        
+        audio.play().catch(e => console.error("Audio playback error:", e));
       }
 
       setMessages([

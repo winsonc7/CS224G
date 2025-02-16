@@ -8,6 +8,7 @@ import logging
 import requests
 from image_generation import generate_therapist_image
 from voice_generation import generate_speech
+import base64
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -77,7 +78,7 @@ def chat():
             "message": bot_reply,
             "sessionId": session_id,
             "therapistImage": new_image_url,
-            "audioData": audio_data.decode('latin1') if audio_data else None
+            "audioData": base64.b64encode(audio_data).decode('utf-8') if audio_data else None
         })
         
     except Exception as e:
@@ -105,17 +106,27 @@ def generate_speech_endpoint():
     try:
         data = request.json
         if not data:
+            logger.error("No data provided in speech request")
             return jsonify({"error": "No data provided"}), 400
             
         text = data.get('text')
         if not text:
+            logger.error("No text provided in speech request")
             return jsonify({"error": "No text provided"}), 400
             
+        logger.info(f"Generating speech for text: {text[:50]}...")
         audio_data = generate_speech(text)
+        
         if not audio_data:
+            logger.error("Failed to generate speech")
             return jsonify({"error": "Speech generation failed"}), 500
             
-        return Response(audio_data, mimetype='audio/mpeg')
+        # Convert audio data to base64 for frontend
+        audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+        return jsonify({
+            "audio": audio_base64,
+            "format": "audio/mpeg"
+        })
         
     except Exception as e:
         logger.error(f"Speech endpoint error: {str(e)}")

@@ -15,28 +15,28 @@ def get_emotion_details(emotion: str) -> Dict[str, str]:
     """Get detailed emotion descriptions"""
     emotion_map = {
         'sad': {
-            'expression': 'gentle empathy with slightly downturned eyes, caring smile',
-            'gesture': 'head tilted slightly to show understanding',
+            'expression': 'gentle empathy with soft downturned eyes, compassionate smile',
+            'gesture': 'head tilted to the side with a slight forward lean, one hand slightly raised in a supportive gesture',
             'intensity': 'subtle'
         },
         'angry': {
-            'expression': 'calm and grounding presence, steady gaze',
-            'gesture': 'professional posture with slight forward lean',
+            'expression': 'calm and grounding presence with a composed smile, steady reassuring gaze',
+            'gesture': 'sitting upright with shoulders back, hands folded calmly, slight forward lean to show engagement',
             'intensity': 'moderate'
         },
         'happy': {
-            'expression': 'warm smile with bright, engaged eyes',
-            'gesture': 'slight head tilt with encouraging posture',
+            'expression': 'radiant warm smile with bright engaged eyes, slightly raised eyebrows',
+            'gesture': 'animated head tilt with open body language, shoulders relaxed, one hand gesturing warmly',
             'intensity': 'moderate'
         },
         'anxious': {
-            'expression': 'calming and reassuring expression, soft gaze',
-            'gesture': 'stable and grounding presence',
+            'expression': 'calming and reassuring expression with gentle eyes, soft understanding smile',
+            'gesture': 'stable grounding presence, head tilted slightly forward, hands positioned to show openness and support',
             'intensity': 'subtle'
         },
         'neutral': {
-            'expression': 'professional warmth with attentive eyes',
-            'gesture': 'welcoming and open posture',
+            'expression': 'professional warmth with attentive eyes, gentle authentic smile',
+            'gesture': 'balanced welcoming posture, subtle head tilt, hands resting naturally to convey openness',
             'intensity': 'subtle'
         }
     }
@@ -90,25 +90,23 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
             return None
         
         params = {
-            "prompt": f"""Create an anime-style portrait of a professional therapist, matching the reference image exactly:
+            "prompt": f"""Professional female therapist showing {emotion} emotion in her expression and body language:
 
-            Current Emotional State ({emotion_details['intensity']}):
-            Expression: {emotion_details['expression']}
-            Gesture: {emotion_details['gesture']}
-
-            Match Reference Image Exactly:
+            Base Appearance (maintain these exactly):
             - Brown shoulder-length bob cut with side-swept bangs
-            - Large expressive blue eyes with white highlights
-            - Heart-shaped face with soft features
-            - Dark grey blazer over cream pleated blouse
-            - Professional office with bookshelves background
-            - Clean anime art style with soft shading
+            - Large blue eyes
+            - Heart-shaped face
+            - Dark grey blazer over cream blouse
+            - Professional office background
+
+            Current Emotional Expression:
+            - {emotion_details['expression']}
+            - {emotion_details['gesture']}
             
-            Expression Guidelines:
-            - Professional composure with emotional awareness
-            - Natural facial expressions showing {emotion}
-            - Gentle eye contact and authentic presence
-            - Subtle head tilt matching emotional state
+            Important:
+            - Focus on natural, authentic emotional expression
+            - Maintain professional demeanor while showing genuine emotion
+            - Clean anime style with clear emotional reading
             """,
             "width": 1024,
             "height": 1024,
@@ -117,7 +115,7 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
             "safety_tolerance": 2,
             "output_format": "jpeg",
             "reference_image": reference_image,
-            "reference_weight": 0.7  # Added reference weight
+            "reference_weight": 0.8  # Increased to maintain consistent appearance
         }
 
         headers = {
