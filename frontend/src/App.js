@@ -16,6 +16,7 @@ import {
   ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
 import "./App.css";
+import therapistSmile from './assets/therapist/Therapist-F-Smile.png';
 
 /**
  * Main application component that renders the chat interface
@@ -29,6 +30,9 @@ function App() {
     { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [currentTherapistImage, setCurrentTherapistImage] = useState(therapistSmile);
 
   /**
    * Handles sending messages to the backend server and updating the chat UI.
@@ -40,17 +44,16 @@ function App() {
     if (!text.trim()) return;
 
     const newMessage = { message: text, sender: "user", timestamp: new Date() };
-    const newMessages = [...messages, newMessage];
-    setMessages(newMessages);
+    setMessages([...messages, newMessage]);
     setIsTyping(true);
+    setIsImageLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/chat', {
+      const response = await fetch('http://127.0.0.1:5001/api/chat', {
         method: 'POST',
-        mode: 'cors',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           message: text,
@@ -58,28 +61,56 @@ function App() {
         })
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
-      const botMessage = {
-        message: data.message,
-        sender: "bot",
-        timestamp: new Date()
-      };
-      setMessages([...newMessages, botMessage]);
+      
+      if (data.therapistImage) {
+        setCurrentTherapistImage(data.therapistImage);
+      }
+
+      setMessages([
+        ...messages,
+        newMessage,
+        { message: data.message, sender: "bot", timestamp: new Date() }
+      ]);
     } catch (error) {
-      console.error('Error:', error);
-      const errorMessage = {
-        message: "Sorry, I'm having trouble connecting to the server.",
-        sender: "bot",
-        timestamp: new Date()
-      };
-      setMessages([...newMessages, errorMessage]);
+      console.error("Error:", error);
+      setMessages([
+        ...messages,
+        { message: "Sorry, I encountered an error. Please try again.", sender: "bot", timestamp: new Date() }
+      ]);
     } finally {
       setIsTyping(false);
+      setIsImageLoading(false);
     }
+  };
+
+  // Add image load handler
+  const handleImageLoad = (e) => {
+    console.log('New therapist image loaded:', {
+      dimensions: {
+        width: e.target.naturalWidth,
+        height: e.target.naturalHeight
+      },
+      timestamp: new Date().toISOString()
+    });
   };
 
   return (
     <div className="app-container">
+      <div className="image-box">
+        <div className="therapist-image-frame">
+          <img 
+            src={currentTherapistImage} 
+            alt="AI Therapist"
+            className={`therapist-image ${isImageLoading ? 'loading' : ''}`}
+            onLoad={handleImageLoad}
+          />
+        </div>
+      </div>
       <div className="chat-window">
         <MainContainer>
           <ChatContainer>
@@ -94,7 +125,7 @@ function App() {
             >
               {messages.map((msg, i) => (
                 <Message 
-                  key={i} 
+                  key={i}
                   model={{
                     message: msg.message,
                     sender: msg.sender,

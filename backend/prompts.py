@@ -82,3 +82,131 @@ def robust_v0():
     Response: "I hear that you're looking for something creative, but I think we're getting off track.
     What's making you feel like you're not good enough? Would you like to continue exploring that?"
 """
+
+def image_prompt_v0(conversation_context):
+    return f"""
+    Create a therapeutic and calming scene that reflects the following emotional context:
+    {conversation_context}
+    
+    Requirements:
+    - Style: Soft, gentle, supportive
+    - No human faces or figures
+    - Safe and comforting imagery
+    - Appropriate for therapy context
+    
+    Focus on natural elements, abstract patterns, or symbolic representations that evoke:
+    - Comfort
+    - Safety
+    - Hope
+    - Growth
+    """
+
+def analyze_conversation_context(messages):
+    """
+    Analyze conversation to extract emotional themes and context
+    for image generation
+    """
+    context_summary = {
+        'primary_emotion': None,
+        'intensity': 0,
+        'conversation_phase': 'initial',
+        'therapeutic_needs': []
+    }
+    
+    emotional_keywords = {
+        'anxiety': ['worried', 'nervous', 'anxious', 'stress'],
+        'depression': ['sad', 'down', 'depressed', 'lonely'],
+        'hope': ['better', 'improve', 'hope', 'positive'],
+        'anger': ['angry', 'frustrated', 'mad', 'upset']
+    }
+    
+    # Analyze messages to fill context_summary
+    for message in messages:
+        # Add analysis logic here
+        pass
+        
+    return context_summary
+
+def therapist_image_prompt_v0(conversation, base_image_description):
+    return f"""
+    EXACT COPY REQUIREMENTS - Use this specific anime therapist image as the base:
+    [Reference: Original therapist with bob-cut hair in office]
+    
+    COPY EXACTLY (99% match):
+    - Every hair strand and highlight position
+    - Exact eye shape, size, and highlight placement
+    - Precise facial proportions and features
+    - Identical blazer and blouse details
+    - Exact background elements and composition
+    - Same lighting and shadow patterns
+    - Identical line art style and weight
+    - Same cell-shading technique
+
+    ONLY ALLOW THESE MICROSCOPIC CHANGES (1% variation):
+    1. Eyes:
+        - Eyelid position: ±1px maximum
+        - Pupil size: ±0.5px maximum
+        - Eyebrow angle: ±1° maximum
+    2. Mouth:
+        - Lip curve: ±1px maximum
+        - Corner lift: ±0.5px maximum
+
+    Current Expression Adjustment:
+    {analyze_emotional_context(conversation)}
+
+    TECHNICAL REQUIREMENTS:
+    - Resolution: Exactly match original (1024x1024)
+    - Line weight: Precisely match original
+    - Color values: 100% match to original
+    - Shading: Identical cell-shade technique
+    - Art style: Perfect match to original anime style
+
+    CRITICAL: This should look like the exact same image with only microscopically different expressions.
+    """
+
+def analyze_emotional_context(conversation_history):
+    """
+    Analyze the conversation to determine appropriate therapist response
+    """
+    emotional_patterns = {
+        'distress': {
+            'keywords': ['worried', 'scared', 'anxious'],
+            'expression': 'gentle concern with softened eyes and a compassionate smile'
+        },
+        'sadness': {
+            'keywords': ['sad', 'depressed', 'lonely'],
+            'expression': 'empathetic expression with caring eyes and a supportive, understanding look'
+        },
+        'progress': {
+            'keywords': ['better', 'improving', 'hopeful'],
+            'expression': 'encouraging smile with bright, supportive eyes'
+        },
+        'anger': {
+            'keywords': ['angry', 'frustrated', 'mad'],
+            'expression': 'calm, steady gaze with a grounding presence'
+        }
+    }
+    # Implementation here
+
+def summarize_conversation_context(conversation_history):
+    """
+    Create a summary of the therapeutic context to inform image generation
+    """
+    return {
+        'current_topic': 'Topic being discussed',
+        'therapeutic_phase': 'Current phase of therapy (opening, exploring, etc.)',
+        'user_state': 'Current emotional state of user',
+        'therapist_approach': 'Current therapeutic approach being used'
+    }
+
+def track_image_consistency(previous_images, new_image):
+    """
+    Ensure new image maintains consistency with previous generations
+    """
+    consistency_checks = {
+        'facial_features': 'Check core facial features remain consistent',
+        'hair_style': 'Verify hair style matches base image',
+        'art_style': 'Ensure consistent anime art style',
+        'quality': 'Maintain image quality standards'
+    }
+    # Implementation here

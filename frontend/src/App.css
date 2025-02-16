@@ -12,10 +12,42 @@ body {
   align-items: center;
   height: 100vh;
   padding: 20px;
+  gap: 20px;
+}
+
+/* Add new image placeholder box */
+.image-box {
+  width: 40%;
+  height: 80vh;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.therapist-image-frame {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #8b5cf6;
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.therapist-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 .chat-window {
-  width: 90%;
+  width: 40%;
   max-width: 800px;
   height: 80vh;
   background: white;
