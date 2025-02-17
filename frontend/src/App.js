@@ -27,7 +27,7 @@ import therapistSmile from './assets/therapist/Therapist-F-Smile.png';
  */
 function App() {
   const [messages, setMessages] = useState([
-    { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
+    { message: "Hey, I'm Nina, I'm here to listen to whatever is on your mind!", sender: "bot" },
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -35,6 +35,7 @@ function App() {
   const [currentAnimation, setCurrentAnimation] = useState(null);
   const [imageKey, setImageKey] = useState(0);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [selectedModel, setSelectedModel] = useState('gpt-4');
 
   /**
    * Handles sending messages to the backend server and updating the chat UI.
@@ -60,7 +61,8 @@ function App() {
         body: JSON.stringify({
           message: text,
           sessionId: 'default',
-          voiceEnabled: voiceEnabled
+          voiceEnabled: voiceEnabled,
+          model: selectedModel
         })
       });
 
@@ -147,16 +149,28 @@ function App() {
             />
           )}
         </div>
-        <div className="voice-toggle">
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={voiceEnabled}
-              onChange={(e) => setVoiceEnabled(e.target.checked)}
-            />
-            <span className="slider round"></span>
-          </label>
-          <span className="toggle-label">Voice {voiceEnabled ? 'On' : 'Off'}</span>
+        <div className="controls-container">
+          <div className="model-selector">
+            <select 
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="model-select"
+            >
+              <option value="gpt-4">GPT-4</option>
+              <option value="claude-3.5">Claude 3.5</option>
+            </select>
+          </div>
+          <div className="voice-toggle">
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={voiceEnabled}
+                onChange={(e) => setVoiceEnabled(e.target.checked)}
+              />
+              <span className="slider round"></span>
+            </label>
+            <span className="toggle-label">Voice {voiceEnabled ? 'On' : 'Off'}</span>
+          </div>
         </div>
       </div>
       <div className="chat-window">
@@ -168,7 +182,7 @@ function App() {
               />
             </ConversationHeader>
             <MessageList 
-              typingIndicator={isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null}
+              typingIndicator={isTyping ? <TypingIndicator content="Lemme think this through..." /> : null}
               className="message-list"
             >
               {messages.map((msg, i) => (
@@ -181,7 +195,7 @@ function App() {
                     position: "single"
                   }}
                 >
-                  <Message.Header sender={msg.sender === "bot" ? "Talk2Me" : "You"} />
+                  <Message.Header sender={msg.sender === "bot" ? "Nina" : "You"} />
                 </Message>
               ))}
             </MessageList>
