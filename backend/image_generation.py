@@ -4,6 +4,7 @@ import requests
 import base64
 from typing import Dict, Optional
 import logging
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +90,9 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
             logger.error(f"Failed to load reference image: {str(e)}")
             return None
         
+        # Add randomization to ensure unique generations
+        random_seed = random.randint(1, 10000)
+        
         params = {
             "prompt": f"""Professional female therapist showing {emotion} emotion in her expression and body language:
 
@@ -111,11 +115,11 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
             "width": 1024,
             "height": 1024,
             "prompt_upsampling": False,
-            "seed": 42,
+            "seed": random_seed,  # Use random seed for variation
             "safety_tolerance": 2,
             "output_format": "jpeg",
             "reference_image": reference_image,
-            "reference_weight": 0.8  # Increased to maintain consistent appearance
+            "reference_weight": 0.8
         }
 
         headers = {
@@ -123,7 +127,7 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
             'X-Key': BFL_API_KEY
         }
 
-        logger.info(f"Sending request to BFL API for emotion: {emotion}")
+        logger.info(f"Sending request to BFL API for emotion: {emotion} with seed: {random_seed}")
         response = requests.post(BFL_API_URL, json=params, headers=headers)
         
         if not response.ok:

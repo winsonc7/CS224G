@@ -49,6 +49,7 @@ def chat():
             
         session_id = data.get('sessionId', 'default')
         user_message = data.get('message')
+        voice_enabled = data.get('voiceEnabled', False)  # Get voice preference
         
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
@@ -69,7 +70,11 @@ def chat():
         # Get emotional context and generate image
         emotion = analyze_emotional_context(conversations[session_id])
         new_image_url = generate_therapist_image(emotion)
-        audio_data = generate_speech(bot_reply)
+        
+        # Generate audio only if voice is enabled
+        audio_data = None
+        if voice_enabled:
+            audio_data = generate_speech(bot_reply)
         
         # Add bot response to conversation
         conversations[session_id].append({"role": "assistant", "content": bot_reply})

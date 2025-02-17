@@ -31,8 +31,10 @@ function App() {
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [currentTherapistImage, setCurrentTherapistImage] = useState(therapistSmile);
+  const [currentAnimation, setCurrentAnimation] = useState(null);
+  const [imageKey, setImageKey] = useState(0);
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
 
   /**
    * Handles sending messages to the backend server and updating the chat UI.
@@ -57,7 +59,8 @@ function App() {
         },
         body: JSON.stringify({
           message: text,
-          sessionId: 'default'
+          sessionId: 'default',
+          voiceEnabled: voiceEnabled
         })
       });
 
@@ -71,6 +74,11 @@ function App() {
       
       if (data.therapistImage) {
         setCurrentTherapistImage(data.therapistImage);
+        setImageKey(prev => prev + 1);
+      }
+
+      if (data.therapistAnimation) {
+        setCurrentAnimation(data.therapistAnimation);
       }
 
       // Updated audio handling
@@ -121,12 +129,34 @@ function App() {
     <div className="app-container">
       <div className="image-box">
         <div className="therapist-image-frame">
-          <img 
-            src={currentTherapistImage} 
-            alt="AI Therapist"
-            className={`therapist-image ${isImageLoading ? 'loading' : ''}`}
-            onLoad={handleImageLoad}
-          />
+          {currentAnimation ? (
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              className="therapist-animation"
+              src={currentAnimation}
+            />
+          ) : (
+            <img 
+              key={imageKey}
+              src={currentTherapistImage} 
+              alt="AI Therapist"
+              className={`therapist-image ${isImageLoading ? 'loading' : ''}`}
+              onLoad={handleImageLoad}
+            />
+          )}
+        </div>
+        <div className="voice-toggle">
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={voiceEnabled}
+              onChange={(e) => setVoiceEnabled(e.target.checked)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <span className="toggle-label">Voice {voiceEnabled ? 'On' : 'Off'}</span>
         </div>
       </div>
       <div className="chat-window">
