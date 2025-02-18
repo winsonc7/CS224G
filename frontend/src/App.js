@@ -36,6 +36,7 @@ function App() {
   const [imageKey, setImageKey] = useState(0);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [selectedModel, setSelectedModel] = useState('gpt-4');
+  const [isResponding, setIsResponding] = useState(false);
 
   /**
    * Handles sending messages to the backend server and updating the chat UI.
@@ -44,10 +45,16 @@ function App() {
    * @returns {Promise<void>}
    */
   const handleSend = async (text) => {
+    if (isResponding) {
+      return;
+    }
+    
     if (!text.trim()) return;
 
     const newMessage = { message: text, sender: "user", timestamp: new Date() };
     setMessages([...messages, newMessage]);
+    
+    setIsResponding(true);
     setIsTyping(true);
     setIsImageLoading(true);
 
@@ -71,19 +78,14 @@ function App() {
       }
 
       const data = await response.json();
-
-      console.log(data);
       
+      // Update image immediately when we get response
       if (data.therapistImage) {
         setCurrentTherapistImage(data.therapistImage);
         setImageKey(prev => prev + 1);
       }
 
-      if (data.therapistAnimation) {
-        setCurrentAnimation(data.therapistAnimation);
-      }
-
-      // Updated audio handling
+      // Start audio immediately if voice is enabled
       if (data.audioData) {
         const audioBlob = new Blob(
           [Uint8Array.from(atob(data.audioData), c => c.charCodeAt(0))],
@@ -92,24 +94,29 @@ function App() {
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
         
-        audio.onended = () => {
-          URL.revokeObjectURL(audioUrl); // Clean up the URL after playing
-        };
-        
+        // Play immediately
         audio.play().catch(e => console.error("Audio playback error:", e));
+        
+        audio.onended = () => {
+          URL.revokeObjectURL(audioUrl);
+          setIsResponding(false);
+        };
       }
 
-      setMessages([
-        ...messages,
-        newMessage,
+      // Show Nina's message immediately
+      setMessages(prev => [
+        ...prev,
         { message: data.message, sender: "bot", timestamp: new Date() }
       ]);
+      
+      // If no voice, allow new messages immediately
+      if (!voiceEnabled) {
+        setIsResponding(false);
+      }
+
     } catch (error) {
       console.error("Error:", error);
-      setMessages([
-        ...messages,
-        { message: "Sorry, I encountered an error. Please try again.", sender: "bot", timestamp: new Date() }
-      ]);
+      setIsResponding(false);
     } finally {
       setIsTyping(false);
       setIsImageLoading(false);
@@ -208,6 +215,11 @@ function App() {
           </ChatContainer>
         </MainContainer>
       </div>
+      {isResponding && (
+        <div className="nina-typing-indicator">
+          <span>...</span>
+        </div>
+      )}
     </div>
   );
 }
