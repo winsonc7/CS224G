@@ -34,8 +34,8 @@ function App() {
   const [currentTherapistImage, setCurrentTherapistImage] = useState(therapistSmile);
   const [currentAnimation, setCurrentAnimation] = useState(null);
   const [imageKey, setImageKey] = useState(0);
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [selectedModel, setSelectedModel] = useState('gpt-4');
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [selectedModel, setSelectedModel] = useState('gpt-3.5');
   const [isResponding, setIsResponding] = useState(false);
 
   /**
@@ -163,6 +163,7 @@ function App() {
               onChange={(e) => setSelectedModel(e.target.value)}
               className="model-select"
             >
+              <option value="gpt-3.5">GPT-3.5</option>
               <option value="gpt-4">GPT-4</option>
               <option value="claude-3.5">Claude 3.5</option>
             </select>

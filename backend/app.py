@@ -40,6 +40,12 @@ def get_ai_response(conversation, model="gpt-4"):
                 messages=conversation
             )
             return response.choices[0].message.content
+        elif model == "gpt-3.5":
+            response = openai_client.chat.completions.create(
+                model="gpt-3.5-turbo-0125",  # Use the turbo version
+                messages=conversation
+            )
+            return response.choices[0].message.content
         elif model in ["claude-3", "claude-3.5"]:  # Accept both values
             # Convert conversation format for Claude
             claude_messages = []

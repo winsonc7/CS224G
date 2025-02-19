@@ -24,12 +24,13 @@ def generate_speech(text: str) -> Optional[bytes]:
             logger.error("Missing ELEVENLABS_VOICE_ID environment variable")
             return None
 
-        url = f"https://api.elevenlabs.io/v1/text-to-speech/{THERAPIST_VOICE_ID}/stream"
+        voice_id = THERAPIST_VOICE_ID
+        url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
         
         headers = {
-            'Accept': 'audio/mpeg',
-            'Content-Type': 'application/json',
-            'xi-api-key': ELEVEN_LABS_API_KEY
+            "Accept": "audio/mpeg",
+            "Content-Type": "application/json",
+            "xi-api-key": ELEVEN_LABS_API_KEY
         }
         
         # Add text validation
@@ -44,24 +45,25 @@ def generate_speech(text: str) -> Optional[bytes]:
         
         data = {
             "text": text,
-            "model_id": "eleven_multilingual_v2",
+            "model_id": "eleven_monolingual_v1",
             "voice_settings": {
                 "stability": 0.5,
                 "similarity_boost": 0.75,
                 "style": 0.5,
-                "speaking_rate": 1.3
+                "speaking_rate": 1.3  # Adjusted speaking rate
             }
         }
 
         logger.info(f"Sending request to ElevenLabs API with text length: {len(text)}")
-        response = requests.post(url, headers=headers, json=data, timeout=30)
+        response = requests.post(url, json=data, headers=headers)
         
         if response.ok:
             logger.info("Successfully generated speech")
-            if not response.content:
+            if response.content:
+                return response.content
+            else:
                 logger.error("Received empty response content")
                 return None
-            return response.content
         else:
             logger.error(f"Speech generation failed: Status {response.status_code}")
             logger.error(f"Response: {response.text}")
@@ -74,5 +76,5 @@ def generate_speech(text: str) -> Optional[bytes]:
         logger.error("Connection error to ElevenLabs API")
         return None
     except Exception as e:
-        logger.error(f"Voice generation error: {str(e)}")
+        logger.error(f"Speech generation error: {str(e)}")
         return None 

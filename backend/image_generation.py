@@ -57,17 +57,19 @@ def poll_for_image(polling_url: str, max_attempts: int = 60, delay_ms: int = 200
             response = requests.get(polling_url, headers=headers)
             data = response.json()
             
-            if attempt % 5 == 0:  # Log every 5th attempt to reduce noise
+            if attempt % 5 == 0:  # Log every 5th attempt
                 logger.info(f"Poll attempt {attempt + 1}: {data}")
 
             if data.get('status') == 'Ready' and data.get('result', {}).get('sample'):
                 logger.info("Successfully received generated image")
                 return data['result']['sample']
+                
             elif data.get('status') == 'Failed':
                 logger.error(f"Image generation failed: {data.get('details')}")
                 return None
-
+                
             time.sleep(delay_ms / 1000)
+            
         except Exception as e:
             logger.error(f"Polling error: {str(e)}")
             continue
@@ -94,11 +96,11 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
         random_seed = random.randint(1, 10000)
         
         params = {
-            "prompt": f"""Professional female therapist showing {emotion} emotion in her expression and body language:
-
-            Base Appearance (maintain these exactly):
+            "prompt": f"""Match reference image exactly, changing only facial expression and subtle body language:
+            
+             Base Appearance (maintain these exactly):
             - Brown shoulder-length bob cut with side-swept bangs
-            - Large blue eyes
+            - Large hazel eyes
             - Heart-shaped face
             - Dark grey blazer over cream blouse
             - Professional office background
@@ -111,15 +113,20 @@ def generate_therapist_image(emotion: str) -> Optional[str]:
             - Focus on natural, authentic emotional expression
             - Maintain professional demeanor while showing genuine emotion
             - Clean anime style with clear emotional reading
+            - Keep same art style, character design, and environment as reference
+            - Maintain exact same clothing, hair, and background
+            - Change ONLY: 
+                * Facial expression: {emotion_details['expression']}
+                * Body language: {emotion_details['gesture']}
             """,
             "width": 1024,
             "height": 1024,
             "prompt_upsampling": False,
-            "seed": random_seed,  # Use random seed for variation
+            "seed": random_seed,
             "safety_tolerance": 2,
             "output_format": "jpeg",
             "reference_image": reference_image,
-            "reference_weight": 0.8
+            "reference_weight": 0.80 # Balanced value
         }
 
         headers = {
