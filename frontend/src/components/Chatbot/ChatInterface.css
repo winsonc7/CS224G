@@ -126,6 +126,35 @@ body {
   border: 2px solid #e6e6e6;
 }
 
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f0f5ff;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
+  color: #8b5cf6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #e6ebff;
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.logout-button:active {
+  transform: scale(0.98);
+}
+
+.logout-button svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .chat-window {

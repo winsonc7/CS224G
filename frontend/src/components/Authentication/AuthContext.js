@@ -1,17 +1,4 @@
-/**
- * Authentication Context Provider for Talk2Me Application
- * 
- * This context manages the authentication state throughout the application.
- * It provides:
- * - User authentication state
- * - Loading state
- * - Sign up functionality 
- * - Sign in functionality
- * - Sign out functionality
- * 
- * The context uses Supabase for authentication and maintains a subscription
- * to auth state changes, ensuring the UI stays in sync with the auth state.
- */
+// Manages global auth state (user session, login/logout)
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../../supabase';

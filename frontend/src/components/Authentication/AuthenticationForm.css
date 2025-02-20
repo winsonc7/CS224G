@@ -1,6 +1,7 @@
-/* AuthenticationForm.css */
+/* Font imports */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
 
+/* Container Styles */
 .app-container {
   display: flex;
   justify-content: center;
@@ -17,13 +18,14 @@
   border-radius: 20px;
   box-shadow: 0 12px 28px rgba(139, 92, 246, 0.15);
   overflow: hidden;
-  animation: slideIn 0.3s ease-out;
   padding: 2rem;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
+  animation: slideIn 0.3s ease-out;
 }
 
+/* Title Styles */
 .auth-title {
   font-family: 'Outfit', sans-serif;
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
@@ -39,6 +41,7 @@
   animation: gentleFade 0.6s ease-out;
 }
 
+/* Form Container Styles */
 .auth-form-container {
   background: #faf8ff;
   border-radius: 16px;
@@ -51,20 +54,24 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.75rem;
   padding: 0.5rem;
 }
 
+/* Form Group Styles */
 .form-group {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0.75rem;
+  gap: 0.25rem;
+  padding: 0.5rem;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(139, 92, 246, 0.05);
+  margin-bottom: 0.25rem;
 }
 
+/* Input Styles */
 .input-with-icon {
   position: relative;
   display: flex;
@@ -78,13 +85,13 @@
 }
 
 .form-input {
+  width: 100%;
   background: #f0f5ff;
   border: 1px solid rgba(139, 92, 246, 0.1);
   border-radius: 12px;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
   font-size: 0.875rem;
   transition: all 0.2s ease;
-  width: 100%;
 }
 
 .form-input:focus {
@@ -93,54 +100,34 @@
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
-/* Password and Email Requirements Styles */
-.password-requirements,
-.email-requirements {
-  margin-top: 0.75rem;
-  font-size: 0.75rem;
-  color: #6b7280;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0 0.5rem;
-}
-
-.requirement {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  opacity: 0.7;
-  transition: all 0.2s ease;
-}
-
-.requirement.met {
-  color: #22c55e;
-  opacity: 1;
-}
-
-.requirement.unmet {
-  opacity: 0.9;
-}
-
-.requirement-icon {
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.2s ease;
-}
-
-.requirement-icon.success {
-  color: #22c55e;
-  opacity: 1;
-  transform: scale(1);
-}
-
-.requirement-icon.error {
+/* Error Styles */
+.form-group.has-error::before {
+  content: '*';
   color: #ef4444;
-  opacity: 1;
-  transform: scale(1);
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 1rem;
+  z-index: 1;
 }
 
-/* Submit Button Styles */
+.form-input.error {
+  border-color: #ef4444;
+}
+
+.form-input.error:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Button Styles */
 .submit-btn {
   background: #8b5cf6;
   color: white;
@@ -182,19 +169,6 @@
   color: #7c3aed;
 }
 
-/* Error Message Styles */
-.auth-error {
-  background: #fef2f2;
-  border: 1px solid #fee2e2;
-  color: #ef4444;
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  text-align: center;
-  animation: slideIn 0.2s ease-out;
-}
-
 /* Date Input Styles */
 .form-input[type="date"] {
   color: #4a5568;
@@ -210,6 +184,17 @@
 .form-input[type="date"]::-webkit-datetime-edit-day-field,
 .form-input[type="date"]::-webkit-datetime-edit-year-field {
   color: #4a5568;
+}
+
+/* Success View Styles */
+.auth-success-content {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.success-icon {
+  margin-bottom: 1.5rem;
+  color: #22c55e;
 }
 
 /* Animations */
@@ -251,6 +236,6 @@
   }
   
   .auth-form {
-    gap: 1rem;
+    gap: 0.75rem;
   }
 }

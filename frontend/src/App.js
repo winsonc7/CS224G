@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './components/Authentication/AuthContext';
 import AuthenticationForm from './components/Authentication/AuthenticationForm';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import ChatInterface from './components/Chatbot/ChatInterface'; // Your existing chat component
+import ChatInterface from './components/Chatbot/ChatInterface'; 
 
 function App() {
   return (

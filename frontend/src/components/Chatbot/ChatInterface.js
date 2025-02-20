@@ -5,7 +5,8 @@
  */
 
 import React, { useState } from "react";
-import { useAuth } from "../Authentication/AuthContext";  // Import authentication context
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Authentication/AuthContext";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -15,23 +16,26 @@ import {
   MessageInput,
   TypingIndicator,
   ConversationHeader,
-  Button,
 } from "@chatscope/chat-ui-kit-react";
+import { LogOut } from 'lucide-react';
 import "./ChatInterface.css";
 
-/**
- * Main application component that renders the chat interface
- * and handles message exchange with the backend server.
- * 
- * @component
- * @returns {JSX.Element} The rendered chat interface
- */
-function App() {
+function ChatInterface() {
+  const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const [messages, setMessages] = useState([
     { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
   ]);
   const [isTyping, setIsTyping] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/auth');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   /**
    * Handles sending messages to the backend server and updating the chat UI.
@@ -83,31 +87,48 @@ function App() {
 
   return (
     <div className="app-container">
-        <div className="chat-window">
-          <MainContainer>
-            <ChatContainer>
-              <ConversationHeader>
-                <ConversationHeader.Content userName="Talk2Me" />
-              </ConversationHeader>
-              <MessageList typingIndicator={isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null}>
-                {messages.map((msg, i) => (
-                  <Message
-                    key={i}
-                    model={{
-                      message: msg.message,
-                      sender: msg.sender,
-                      direction: msg.sender === "user" ? "outgoing" : "incoming",
-                      position: "single",
-                    }}
-                  />
-                ))}
-              </MessageList>
-              <MessageInput placeholder="Type your message here..." onSend={handleSend} attachButton={false} />
-            </ChatContainer>
-          </MainContainer>
-        </div>
+      <div className="chat-window">
+        <MainContainer>
+          <ChatContainer>
+            <ConversationHeader>
+              <ConversationHeader.Content userName="Talk2Me" />
+              <ConversationHeader.Actions>
+                <button 
+                  onClick={handleLogout}
+                  className="logout-button"
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
+              </ConversationHeader.Actions>
+            </ConversationHeader>
+            <MessageList 
+              typingIndicator={
+                isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null
+              }
+            >
+              {messages.map((msg, i) => (
+                <Message
+                  key={i}
+                  model={{
+                    message: msg.message,
+                    sender: msg.sender,
+                    direction: msg.sender === "user" ? "outgoing" : "incoming",
+                    position: "single",
+                  }}
+                />
+              ))}
+            </MessageList>
+            <MessageInput 
+              placeholder="Type your message here..." 
+              onSend={handleSend} 
+              attachButton={false} 
+            />
+          </ChatContainer>
+        </MainContainer>
+      </div>
     </div>
   );
 }
 
-export default App;
+export default ChatInterface;
