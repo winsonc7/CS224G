@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import os
 from openai import OpenAI
-import anthropic  # Add Anthropic import
 from mem0 import MemoryClient
 from dotenv import load_dotenv
 from prompts import cbtprompt_v0, robust_v0
@@ -31,14 +30,13 @@ CORS(app, resources={
 # Initialize both clients
 load_dotenv()
 openai_client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-anthropic_client = anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
 mem0_client = MemoryClient(api_key="m0-IlWS1Eo7cixEBZfLBgYTQiI7ssYHsMQycq9Th5ux")
 
 
 conversations = {}
 PREVIOUS_EMOTION = 'neutral'  # Track previous emotional state
 
-def get_ai_response(conversation, model="gpt-4"):
+def get_ai_response(conversation, model="gpt-3.5"):
     try:
         if model == "gpt-4":
             response = openai_client.chat.completions.create(
@@ -48,41 +46,10 @@ def get_ai_response(conversation, model="gpt-4"):
             return response.choices[0].message.content
         elif model == "gpt-3.5":
             response = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo-0125",  # Use the turbo version
+                model="gpt-3.5-turbo-0125",
                 messages=conversation
             )
             return response.choices[0].message.content
-        elif model in ["claude-3", "claude-3.5"]:  # Accept both values
-            # Convert conversation format for Claude
-            claude_messages = []
-            system_content = None
-            
-            # Add logging to debug
-            logger.info(f"Using Claude 3.5 with messages: {claude_messages[:2]}")  # Log first few messages
-            
-            # Extract system prompt if present
-            for msg in conversation:
-                if msg["role"] == "system":
-                    system_content = msg["content"]
-                else:
-                    claude_messages.append({
-                        "role": msg["role"],
-                        "content": msg["content"]
-                    })
-            
-            # Add system content to first user message if present
-            if system_content and claude_messages:
-                first_msg = claude_messages[0]
-                if first_msg["role"] == "user":
-                    first_msg["content"] = f"System Context: {system_content}\n\nUser Message: {first_msg['content']}"
-            
-            response = anthropic_client.messages.create(
-                model="claude-3-sonnet-20240229",
-                max_tokens=1024,
-                messages=claude_messages,
-                temperature=0.7
-            )
-            return response.content
     except Exception as e:
         logger.error(f"AI response error for model {model}: {str(e)}")
         return f"Error with {model}: {str(e)}"
@@ -123,7 +90,7 @@ def chat():
         session_id = data.get('sessionId', 'default')
         user_message = data.get('message')
         voice_enabled = data.get('voiceEnabled', False)
-        model = data.get('model', 'gpt-4')
+        model = data.get('model', 'gpt-3.5')
         
         logger.info(f"Received request - Model: {model}, Voice: {voice_enabled}")  # This will help debug
         
