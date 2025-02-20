@@ -22,7 +22,7 @@ import "./ChatInterface.css";
 
 function ChatInterface() {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
   const [messages, setMessages] = useState([
     { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
   ]);

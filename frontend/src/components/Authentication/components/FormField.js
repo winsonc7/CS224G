@@ -1,7 +1,6 @@
 // Reusable input component with icon & error handling
 
 import React from 'react';
-import { CheckCircle2 } from 'lucide-react';
 
 const FormField = ({
   icon: Icon,

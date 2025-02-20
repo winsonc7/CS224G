@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Smile, Calendar, Mail, Lock } from 'lucide-react';
-import { useAuth } from '../Authentication/AuthContext';
+import { useAuth } from './AuthContext';
 import { useAuthForm } from './hooks/useAuthForm';
 import FormField from './components/FormField';
 import SignupSuccess from './components/SignupSuccess';
@@ -14,6 +14,7 @@ function AuthenticationForm() {
   const { signIn, signUp, user } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const form = useAuthForm(isLogin, {
     onSignInSuccess: () => navigate('/chat'),
@@ -29,8 +30,13 @@ function AuthenticationForm() {
   }, [user, navigate]);
 
   const handleToggleMode = () => {
-    setIsLogin(!isLogin);
-    form.reset();
+    setIsTransitioning(true); // Start fade-out
+  
+    setTimeout(() => {
+      setIsLogin((prev) => !prev); // Switch login mode
+      form.reset(); // Reset form after switching
+      setIsTransitioning(false); // Start fade-in
+    }, 200); // Delay to match CSS transition duration
   };
 
   if (signupSuccess) {
@@ -47,7 +53,7 @@ function AuthenticationForm() {
 
   return (
     <div className="app-container">
-      <div className="auth-window">
+      <div className={`auth-window ${isTransitioning ? "transitioning" : ""}`}>
         <h2 className="auth-title">
           {isLogin ? 'Welcome Back' : 'Begin Your Journey'}
         </h2>

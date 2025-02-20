@@ -22,9 +22,14 @@
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  animation: slideIn 0.3s ease-out;
+  /* Fade */
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
 }
 
+.auth-window.transitioning {
+  opacity: 0;
+}
 /* Title Styles */
 .auth-title {
   font-family: 'Outfit', sans-serif;
