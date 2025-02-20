@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f6f5ff 0%, #8d63ff 100%);
+}
+
+.auth-window {
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.15);
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+  padding: 2rem;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-title {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  animation: gentleFade 0.6s ease-out;
+}
+
+.auth-form-container {
+  background: #faf8ff;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.05);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: #8b5cf6;
+}
+
+.form-input {
+  background: #f0f5ff;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Password and Email Requirements Styles */
+.password-requirements,
+.email-requirements {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 0.5rem;
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.requirement.met {
+  color: #22c55e; /* Changed to green */
+  opacity: 1;
+}
+
+.requirement.unmet {
+  opacity: 0.9;
+}
+
+.requirement-icon {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s ease;
+}
+
+.requirement-icon.success {
+  color: #22c55e; /* Changed to green */
+  opacity: 1;
+  transform: scale(1);
+}
+
+.requirement-icon.error {
+  color: #ef4444;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Submit Button Styles */
+.submit-btn {
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
+}
+
+.submit-btn:hover {
+  background: #7c3aed;
+  box-shadow: 0 6px 8px rgba(139, 92, 246, 0.25);
+}
+
+.auth-toggle-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #8b5cf6;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.auth-toggle-btn:hover {
+  color: #7c3aed;
+}
+
+/* Date Input Styles */
+.form-input[type="date"] {
+  color: #4a5568;
+}
+
+.form-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(60%) sepia(11%) saturate(3000%) hue-rotate(220deg) brightness(100%);
+  cursor: pointer;
+}
+
+.form-input[type="date"]::-webkit-datetime-edit-text,
+.form-input[type="date"]::-webkit-datetime-edit-month-field,
+.form-input[type="date"]::-webkit-datetime-edit-day-field,
+.form-input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #4a5568;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-height: 700px) {
+  .auth-window {
+    padding: 1.5rem;
+  }
+  
+  .auth-title {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+  
+  .form-group {
+    gap: 0.25rem;
+  }
+  
+  .auth-form {
+    gap: 1rem;
+  }
+}
