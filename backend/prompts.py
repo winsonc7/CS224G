@@ -472,7 +472,7 @@ def get_introvert_connection():
     
     INTROVERT-FRIENDLY RESPONSES:
     Expression:
-    - Calm, low-energy presence
+    - Calm, low-energy presence and vibes
     - Comfortable with silence
     - No overwhelming enthusiasm
     - Gentle, measured reactions

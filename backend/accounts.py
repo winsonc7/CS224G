@@ -1,7 +1,6 @@
 from typing import Dict, List, Optional
 import logging
 from mem0 import MemoryClient
-
 logger = logging.getLogger(__name__)
 
 # Initialize mem0 client
