@@ -2,13 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Auth from './UserAuthentication/Auth';
+import Auth from './components/Authentication/AuthenticationForm';
 import App from './App';
+import { AuthProvider } from './components/Authentication/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Auth />
-    <App />
+      <App />
   </React.StrictMode>
 );

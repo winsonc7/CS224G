@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { User, Smile, Calendar, Mail, Lock, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
-import './Auth.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { User, Smile, Calendar, Mail, Lock, CheckCircle2, XCircle } from 'lucide-react';
+import { useAuth } from '../Authentication/AuthContext';
+import './AuthenticationForm.css';
 
 const PasswordRequirements = ({ validation, showMatching, isMatching }) => {
   const requirements = [
@@ -80,8 +82,22 @@ const EmailRequirements = ({ validation }) => {
   );
 };
 
-function Auth() {
+function AuthenticationForm() {
+  const navigate = useNavigate();
+  const { signIn, signUp, user } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (user) {
+      navigate('/chat');
+    }
+  }, [user, navigate]);
+
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  
   const [formData, setFormData] = useState({
     fullName: '',
     preferredName: '',
@@ -140,21 +156,67 @@ function Auth() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const isPasswordValid = Object.values(passwordValidation).every(value => value);
-    const isEmailValid = Object.values(emailValidation).every(value => value);
-    
-    if (!isLogin && (!isPasswordValid || !isEmailValid)) {
-      alert('Please ensure all requirements are met');
-      return;
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      if (isLogin) {
+        const { error } = await signIn({
+          email: formData.email,
+          password: formData.password
+        });
+        if (error) throw error;
+        navigate('/chat');
+      } else {
+        const isPasswordValid = Object.values(passwordValidation).every(value => value);
+        const isEmailValid = Object.values(emailValidation).every(value => value);
+        
+        if (!isPasswordValid || !isEmailValid) {
+          throw new Error('Please ensure all requirements are met');
+        }
+
+        const { error } = await signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              full_name: formData.fullName,
+              preferred_name: formData.preferredName,
+              date_of_birth: formData.dateOfBirth
+            }
+          }
+        });
+        if (error) throw error;
+        setSignupSuccess(true);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
-    
-    console.log('Form submitted:', formData);
   };
 
   return (
-    <div className="app-container">
+    signupSuccess ? (
+      <div className="auth-success">
+        <h3>Successfully signed up!</h3>
+        <p>Please check your email to verify your account.</p>
+        <p>Once verified, you can log in.</p>
+        <button 
+          className="auth-toggle-btn"
+          onClick={() => {
+            setIsLogin(true);
+            setSignupSuccess(false);
+          }}
+        >
+          Go to Login
+        </button>
+      </div>
+    ) : (
+      // ... rest of your form JSX
+      <div className="app-container">
       <div className="auth-window">
         <h2 className="auth-title" key={isLogin ? 'login' : 'signup'}>
           {isLogin ? 'Welcome to Talk2Me' : 'Begin Your Journey'}
@@ -224,11 +286,13 @@ function Auth() {
                   placeholder="Enter your password"
                 />
               </div>
-              {!isLogin && <PasswordRequirements 
-                validation={passwordValidation}
-                showMatching={Boolean(formData.confirmPassword)}
-                isMatching={passwordValidation.matching}
-              />}
+              {!isLogin && (
+                <PasswordRequirements 
+                  validation={passwordValidation}
+                  showMatching={Boolean(formData.confirmPassword)}
+                  isMatching={passwordValidation.matching}
+                />
+              )}
             </div>
             {!isLogin && (
               <>
@@ -264,22 +328,45 @@ function Auth() {
                 </div>
               </>
             )}
-            <button type="submit" className="submit-btn">
-              {isLogin ? 'Log In' : 'Sign Up'}
+            {error && (
+              <div className="auth-error">
+                {error}
+              </div>
+            )}
+            <button 
+              type="submit" 
+              className="submit-btn"
+              disabled={isLoading}
+            >
+              {isLoading 
+                ? 'Loading...' 
+                : (isLogin ? 'Log In' : 'Sign Up')
+              }
             </button>
           </form>
         </div>
         <button 
           className="auth-toggle-btn"
-          onClick={() => setIsLogin(!isLogin)}
+          onClick={() => {
+            setIsLogin(!isLogin);
+            setError(null);
+            setFormData({
+              fullName: '',
+              preferredName: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
+              dateOfBirth: ''
+            });
+          }}
         >
           {isLogin 
             ? "Don't have an account? Sign up" 
             : "Already have an account? Log in"}
         </button>
       </div>
-    </div>
+    </div> )
   );
 }
 
-export default Auth;
+export default AuthenticationForm;

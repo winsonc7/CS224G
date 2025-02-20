@@ -1,3 +1,4 @@
+/* AuthenticationForm.css */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
 
 .app-container {
@@ -113,7 +114,7 @@
 }
 
 .requirement.met {
-  color: #22c55e; /* Changed to green */
+  color: #22c55e;
   opacity: 1;
 }
 
@@ -128,7 +129,7 @@
 }
 
 .requirement-icon.success {
-  color: #22c55e; /* Changed to green */
+  color: #22c55e;
   opacity: 1;
   transform: scale(1);
 }
@@ -154,9 +155,15 @@
   box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
 }
 
-.submit-btn:hover {
+.submit-btn:hover:not(:disabled) {
   background: #7c3aed;
   box-shadow: 0 6px 8px rgba(139, 92, 246, 0.25);
+}
+
+.submit-btn:disabled {
+  background: #c4b5fd;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .auth-toggle-btn {
@@ -173,6 +180,19 @@
 
 .auth-toggle-btn:hover {
   color: #7c3aed;
+}
+
+/* Error Message Styles */
+.auth-error {
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #ef4444;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  animation: slideIn 0.2s ease-out;
 }
 
 /* Date Input Styles */
