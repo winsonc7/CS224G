@@ -3,13 +3,17 @@ from flask_cors import CORS
 import os
 from openai import OpenAI
 import anthropic  # Add Anthropic import
+from mem0 import MemoryClient
 from dotenv import load_dotenv
 from prompts import cbtprompt_v0, robust_v0
 import logging
 import requests
 from image_generation import generate_therapist_image
 from voice_generation import generate_speech
+from accounts import get_login, get_memories, add_memory
 import base64
+
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -28,6 +32,8 @@ CORS(app, resources={
 load_dotenv()
 openai_client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 anthropic_client = anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
+mem0_client = MemoryClient(api_key="m0-IlWS1Eo7cixEBZfLBgYTQiI7ssYHsMQycq9Th5ux")
+
 
 conversations = {}
 PREVIOUS_EMOTION = 'neutral'  # Track previous emotional state
@@ -81,6 +87,32 @@ def get_ai_response(conversation, model="gpt-4"):
         logger.error(f"AI response error for model {model}: {str(e)}")
         return f"Error with {model}: {str(e)}"
 
+def summarize_conversation(conversation):
+    """Get a summary of the current conversation"""
+    summary_prompt = [
+        {"role": "system", "content": "Summarize the key points of this conversation, focusing on important information about the user."},
+        *conversation
+    ]
+    
+    summary = get_ai_response(summary_prompt)
+    return summary
+
+def get_running_summary(conversation):
+    """Get a concise running summary of the conversation"""
+    summary_prompt = [
+        {"role": "system", "content": """
+            Maintain a very concise running summary of the key points about the user. 
+            Focus on facts, preferences, and important context.
+            Format as bullet points.
+            Keep only the most relevant information.
+            Limit to 3-5 bullet points.
+        """},
+        *conversation
+    ]
+    
+    summary = get_ai_response(summary_prompt)
+    return summary
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
@@ -103,9 +135,6 @@ def chat():
             system_prompt = cbtprompt_v0() + robust_v0()
             conversations[session_id] = [{"role": "system", "content": system_prompt}]
         
-        # Add user message to conversation
-        conversations[session_id].append({"role": "user", "content": user_message})
-        
         # Get AI response
         bot_reply = get_ai_response(conversations[session_id], model)
         if not bot_reply:
@@ -120,8 +149,41 @@ def chat():
         if voice_enabled:
             audio_data = generate_speech(bot_reply)
         
-        # Add bot response to conversation
+        # Nina will keep track of what you say and what she says
+        conversations[session_id].append({"role": "user", "content": user_message})
         conversations[session_id].append({"role": "assistant", "content": bot_reply})
+        
+        # Update running summary after each exchange
+        current_summary = get_running_summary(conversations[session_id])
+        
+        # Replace old summary if it exists, or add new one
+        summary_index = next((i for i, msg in enumerate(conversations[session_id]) 
+                            if msg["role"] == "system" and "Current Summary:" in msg["content"]), None)
+        
+        if summary_index is not None:
+            conversations[session_id][summary_index] = {
+                "role": "system",
+                "content": f"Current Summary: {current_summary}"
+            }
+        else:
+            conversations[session_id].append({
+                "role": "system",
+                "content": f"Current Summary: {current_summary}"
+            })
+        
+        # Save summary to long-term memory instead of raw conversation
+        add_memory(session_id, [{
+            "role": "system",
+            "content": f"Conversation Summary: {current_summary}"
+        }])
+        
+        # Get relevant past summaries for context
+        memories = get_memories(session_id, query=user_message)
+        if memories:
+            conversations[session_id].extend([
+                {"role": "system", "content": "Previous relevant memories:"},
+                *memories
+            ])
         
         return jsonify({
             "message": bot_reply,
@@ -232,6 +294,9 @@ def analyze_emotional_context(conversation) -> str:
             
     return 'neutral' if not serious_topic_mentioned else 'concerned'
 
+
+
+
 @app.route('/api/speech', methods=['POST'])
 def generate_speech_endpoint():
     try:
@@ -261,6 +326,59 @@ def generate_speech_endpoint():
         
     except Exception as e:
         logger.error(f"Speech endpoint error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/test_memory', methods=['GET'])
+def test_memory():
+    try:
+        # Create test conversation
+        test_conversation = [
+            {"role": "user", "content": "Hi Nina, I'm vegetarian and I love cooking."},
+            {"role": "assistant", "content": "That's great! I'll remember that you're vegetarian. What kind of dishes do you like to cook?"}
+        ]
+        
+        # Add to memory
+        add_memory("test_user", test_conversation)
+        
+        # Test retrieving memory with different queries
+        veg_memories = get_memories("test_user", query="vegetarian")
+        cooking_memories = get_memories("test_user", query="cooking")
+        
+        return jsonify({
+            "status": "success",
+            "vegetarian_related": veg_memories,
+            "cooking_related": cooking_memories,
+            "all_memories": get_memories("test_user")
+        })
+        
+    except Exception as e:
+        logger.error(f"Memory test error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/end_session', methods=['POST'])
+def end_session():
+    """Save session summary to long-term memory"""
+    try:
+        data = request.json
+        session_id = data.get('sessionId', 'default')
+        
+        if session_id in conversations:
+            # Get final summary of the session
+            session_summary = summarize_conversation(conversations[session_id])
+            
+            # Save to long-term memory
+            add_memory(session_id, [{
+                "role": "system",
+                "content": f"Session Summary: {session_summary}"
+            }])
+            
+            # Clear the session
+            del conversations[session_id]
+            
+            return jsonify({"status": "success", "summary": session_summary})
+            
+    except Exception as e:
+        logger.error(f"End session error: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
