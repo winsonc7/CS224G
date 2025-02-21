@@ -20,6 +20,7 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import { LogOut } from 'lucide-react';
 import "./ChatInterface.css";
+import SessionHistory from "../SessionHistory/SessionHistory";
 
 function ChatInterface() {
   const navigate = useNavigate();
@@ -121,48 +122,53 @@ function ChatInterface() {
 
   return (
     <div className="app-container">
-      <div className="chat-window">
-        <MainContainer>
-          <ChatContainer>
-            <ConversationHeader>
-              <ConversationHeader.Content userName="Talk2Me" />
-              <ConversationHeader.Actions>
-                <button 
-                  onClick={handleLogout}
-                  className="logout-button"
-                >
-                  <LogOut size={20} />
-                  <span>Logout</span>
-                </button>
-              </ConversationHeader.Actions>
-            </ConversationHeader>
-            <MessageList 
-              typingIndicator={
-                isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null
-              }
-            >
-              {messages.map((msg, i) => (
-                <Message
-                  key={i}
-                  model={{
-                    message: msg.message,
-                    sender: msg.sender,
-                    direction: msg.sender === "user" ? "outgoing" : "incoming",
-                    position: "single",
-                  }}
-                />
-              ))}
-            </MessageList>
-            <MessageInput 
-              placeholder="Type your message here..." 
-              onSend={handleSend} 
-              attachButton={false} 
-            />
-          </ChatContainer>
-        </MainContainer>
+      <div className="chat-layout">
+        <div className="chat-window">
+          <MainContainer>
+            <ChatContainer>
+              <ConversationHeader>
+                <ConversationHeader.Content userName="Talk2Me" />
+                <ConversationHeader.Actions>
+                  <button 
+                    onClick={handleLogout}
+                    className="logout-button"
+                  >
+                    <LogOut size={20} />
+                    <span>Logout</span>
+                  </button>
+                </ConversationHeader.Actions>
+              </ConversationHeader>
+              <MessageList 
+                typingIndicator={
+                  isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null
+                }
+              >
+                {messages.map((msg, i) => (
+                  <Message
+                    key={i}
+                    model={{
+                      message: msg.message,
+                      sender: msg.sender,
+                      direction: msg.sender === "user" ? "outgoing" : "incoming",
+                      position: "single",
+                    }}
+                  />
+                ))}
+              </MessageList>
+              <MessageInput 
+                placeholder="Type your message here..." 
+                onSend={handleSend} 
+                attachButton={false} 
+              />
+            </ChatContainer>
+          </MainContainer>
+        </div>
+        <div className="history-sidebar">
+          <SessionHistory />
+        </div>
       </div>
     </div>
-  );
+  );  
 }
 
 export default ChatInterface;
