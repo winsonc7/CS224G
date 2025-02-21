@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Authentication/AuthContext";
+import { supabase } from "../../supabase";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -22,7 +23,9 @@ import "./ChatInterface.css";
 
 function ChatInterface() {
   const navigate = useNavigate();
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  console.log("Current user:", {user});
+  const [sessionId] = useState(() => crypto.randomUUID());
   const [messages, setMessages] = useState([
     { message: "Hi, I'm Talk2Me! What's on your mind?", sender: "bot" },
   ]);
@@ -37,12 +40,29 @@ function ChatInterface() {
     }
   };
 
-  /**
-   * Handles sending messages to the backend server and updating the chat UI.
-   * 
-   * @param {string} text - The message text to send
-   * @returns {Promise<void>}
-   */
+  const storeMessage = async (content, sender) => {
+    console.log("Attempting to store message:", { content, sender, userId: user.id, sessionId });
+    try {
+        const { error: supabaseError } = await supabase
+            .from('messages')
+            .insert({
+                user_id: user.id,
+                content,
+                sender,
+                session_id: sessionId
+            });
+
+        if (supabaseError) {
+            console.error("Supabase error:", supabaseError);
+            throw supabaseError;
+        }
+        console.log("Message stored successfully");
+    } catch (error) {
+        console.error('Error storing message:', error);
+        throw new Error('Failed to store message');
+    }
+};
+
   const handleSend = async (text) => {
     if (!text.trim()) return;
 
@@ -52,6 +72,13 @@ function ChatInterface() {
     setIsTyping(true);
 
     try {
+      // Store user message
+      await storeMessage(text, 'user').catch(error => {
+        console.error('Failed to store user message:', error);
+        // Continue chat flow even if storage fails
+      });
+
+      // Get bot response
       const response = await fetch('http://127.0.0.1:5000/api/chat', {
         method: 'POST',
         mode: 'cors',
@@ -61,7 +88,7 @@ function ChatInterface() {
         },
         body: JSON.stringify({
           message: text,
-          sessionId: 'default'
+          sessionId: sessionId
         })
       });
 
@@ -71,6 +98,13 @@ function ChatInterface() {
         sender: "bot",
         timestamp: new Date()
       };
+
+      // Store bot message
+      await storeMessage(data.message, 'bot').catch(error => {
+        console.error('Failed to store bot message:', error);
+        // Continue chat flow even if storage fails
+      });
+
       setMessages([...newMessages, botMessage]);
     } catch (error) {
       console.error('Error:', error);
