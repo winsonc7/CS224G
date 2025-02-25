@@ -2,11 +2,15 @@ import os
 import signal
 from pynput import keyboard
 
+import sounddevice as sd
+import numpy as np
+
 import openai
 from openai import OpenAI
 from google.cloud import speech
 from google.cloud.speech_v2.types import cloud_speech
 from google.protobuf import duration_pb2
+from google.cloud import texttospeech
 from dotenv import load_dotenv
 
 from prompts import systemprompt_v0, cbtprompt_v0, robust_v0
@@ -29,6 +33,7 @@ def setup_clients():
     """Initialize OpenAI and Google speech-to-text clients"""
     chat_client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
     
+    # speech-to-text setup
     language_code = "en-US"
     speech2text_client = speech.SpeechClient()
     
@@ -58,7 +63,18 @@ def setup_clients():
         # voice_activity_timeout=voice_activity_timeout
     )
 
-    return chat_client, speech2text_client, streaming_config
+    # text-to-speech
+    text2speech_client = texttospeech.TextToSpeechClient()
+
+    text2speech_audio_config = texttospeech.AudioConfig(
+        audio_encoding=texttospeech.AudioEncoding.LINEAR16,
+        sample_rate_hertz=48000,
+    )
+    voice = texttospeech.VoiceSelectionParams(
+                                language_code="en-US",
+                                ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL,
+                            )
+    return chat_client, speech2text_client, streaming_config, text2speech_client, text2speech_audio_config, voice
 
 def get_therapy_config():
     """Get user's preferred therapy mode and style"""
@@ -96,7 +112,7 @@ Enter T1/T2 for text mode or V1/V2 for voice mode (or 'exit'): """
             
         print("Invalid choice. Please try again.")
 
-def handle_voice_therapy(system_prompt, chat_client, speech2text_client, streaming_config):
+def handle_voice_therapy(system_prompt, chat_client, speech2text_client, streaming_config, text2speech_client, audio_config, voice):
     """Handle voice-based therapy session using Google APIs.
     
     Sets up a voice conversation with real-time transcription and synthesis.
@@ -156,9 +172,17 @@ def handle_voice_therapy(system_prompt, chat_client, speech2text_client, streami
                         bot_reply = response.choices[0].message.content
                         print(f"Talk2Me: {bot_reply}")
                         conversation.append({"role": "assistant", "content": bot_reply})
+                        synthesis_input = texttospeech.SynthesisInput(text=bot_reply)
+                        response = text2speech_client.synthesize_speech(
+                            input=synthesis_input, voice=voice, audio_config=audio_config
+                        )
 
-                    except openai.error.OpenAIError as e:
-                        print(f"OPENAI API error: {e}")
+                        audio = np.frombuffer(response.audio_content, dtype=np.int16)
+                        sd.play(audio, 48000)
+                        sd.wait()
+
+                    except Exception as e:
+                        print(f"Error: {e}")
                         print("Please try speaking again.")
                         continue
             except KeyboardInterrupt:
@@ -211,7 +235,7 @@ def handle_text_therapy(system_prompt, chat_client):
             print(f"OPENAI API error: {e}")
 
 def main():
-    chat_client, speech2text_client, streaming_config = setup_clients()
+    chat_client, speech2text_client, streaming_config, text2speech_client, audio_config, voice = setup_clients()
 
     print("Welcome to Talk2Me, your 24/7 AI therapist!")
     print("Please take a deep breath and ensure you're in a comfortable, private space.")
@@ -222,7 +246,7 @@ def main():
         return
         
     if mode == TherapyMode.VOICE:
-        handle_voice_therapy(system_prompt, chat_client, speech2text_client, streaming_config)
+        handle_voice_therapy(system_prompt, chat_client, speech2text_client, streaming_config, text2speech_client, audio_config, voice)
     else:
         handle_text_therapy(system_prompt, chat_client)
 
