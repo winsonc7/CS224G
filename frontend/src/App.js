@@ -83,10 +83,17 @@ function App() {
       <div className="chat-window">
         <MainContainer>
           <ChatContainer>
-            <ConversationHeader>
+            <ConversationHeader className="conversation-header">
               <ConversationHeader.Content 
                 userName="Talk2Me"
               />
+              <ConversationHeader.Actions>
+                <elevenlabs-convai 
+                  agent-id="aB08fUqZnmePxNvmkWTM" 
+                  action-text="Share your thoughts by voice"
+                  className="conversational-agent"
+                ></elevenlabs-convai>
+              </ConversationHeader.Actions>
             </ConversationHeader>
             <MessageList 
               typingIndicator={isTyping ? <TypingIndicator content="Talk2Me is thinking..." /> : null}
