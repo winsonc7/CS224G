@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Check, FileText } from 'lucide-react';
 import LegalDisclaimerModal from './LegalDisclaimerModal';
 
-const LegalCheckbox = ({ register, error, setValue }) => {
+const LegalCheckbox = ({ register, error, setValue, userType = 'client' }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasAccepted, setHasAccepted] = useState(false);
 
@@ -35,6 +35,13 @@ const LegalCheckbox = ({ register, error, setValue }) => {
     }
   };
 
+  // Determine the label text based on user type
+  const getLabelText = () => {
+    return userType === 'therapist' 
+      ? 'I agree to the Therapist Terms and Conditions'
+      : 'I agree to the Terms and Conditions';
+  };
+
   return (
     <div className="form-group disclaimer-group">
       <div className="disclaimer-row">
@@ -57,7 +64,7 @@ const LegalCheckbox = ({ register, error, setValue }) => {
             htmlFor="disclaimer"
             className="disclaimer-label"
           >
-            I agree to the Terms and Conditions
+            {getLabelText()}
           </label>
         </div>
         
@@ -88,6 +95,7 @@ const LegalCheckbox = ({ register, error, setValue }) => {
         isOpen={isModalOpen}
         onClose={closeModal}
         onAccept={handleAccept}
+        userType={userType}
       />
     </div>
   );

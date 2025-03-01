@@ -11,10 +11,12 @@ const defaultValues = {
   password: '',
   confirmPassword: '',
   dateOfBirth: '',
-  disclaimer: false
+  disclaimer: false,
+  credentials: '',
+  practice: ''
 };
 
-export const useAuthForm = (isLogin, { onSignInSuccess, onSignUpSuccess, signIn, signUp }) => {
+export const useAuthForm = (isLogin, { onSignInSuccess, onSignUpSuccess, signIn, signUp, userType = 'client' }) => {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,7 +31,7 @@ export const useAuthForm = (isLogin, { onSignInSuccess, onSignUpSuccess, signIn,
     defaultValues,
     resolver: yupResolver(authSchema),
     mode: 'onChange',
-    context: { isSignup: !isLogin }
+    context: { isSignup: !isLogin, userType }
   });
 
   const onSubmit = async (data) => {
@@ -50,18 +52,28 @@ export const useAuthForm = (isLogin, { onSignInSuccess, onSignUpSuccess, signIn,
         
         onSignInSuccess();
       } else {
+        // Prepare user data based on user type
+        const userData = {
+          full_name: data.fullName,
+          preferred_name: data.preferredName,
+          date_of_birth: data.dateOfBirth,
+          disclaimer_accepted: data.disclaimer,
+          disclaimer_accepted_at: new Date().toISOString(),
+          user_type: userType
+        };
+        
+        // Add therapist-specific fields if applicable
+        if (userType === 'therapist') {
+          userData.credentials = data.credentials;
+          userData.practice = data.practice;
+        }
+        
         // Signup flow - directly attempt signup without checking email
         const { error: signUpError } = await signUp({
           email: data.email,
           password: data.password,
           options: {
-            data: {
-              full_name: data.fullName,
-              preferred_name: data.preferredName,
-              date_of_birth: data.dateOfBirth,
-              disclaimer_accepted: data.disclaimer,
-              disclaimer_accepted_at: new Date().toISOString()
-            }
+            data: userData
           }
         });
         

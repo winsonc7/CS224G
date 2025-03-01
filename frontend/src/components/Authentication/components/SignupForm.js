@@ -1,18 +1,42 @@
 // components/Authentication/components/SignupForm.js
 import React from 'react';
-import { User, Smile, Calendar, Mail, Lock} from 'lucide-react';
+import { User, Smile, Calendar, Mail, Lock, Briefcase, Building, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { useAuthForm } from '../hooks/useAuthForm';
 import FormField from './FormField';
 import LegalCheckbox from './LegalCheckbox';
 
-function SignupForm({ onSwitchToLogin, onSignupSuccess }) {
+function SignupForm({ onSwitchToLogin, onSignupSuccess, userType = 'client', onBackToUserTypeSelection }) {
   const { signUp } = useAuth();
   
   const form = useAuthForm(false, {
     onSignUpSuccess: onSignupSuccess,
-    signUp
+    signUp,
+    userType
   });
+  
+  // Render therapist-specific fields if userType is therapist
+  const renderTherapistFields = () => {
+    if (userType !== 'therapist') return null;
+    
+    return (
+      <>
+        <FormField
+          icon={Briefcase}
+          placeholder="Your credentials (e.g., PhD, LMFT)"
+          error={form.errors.credentials}
+          registration={form.register('credentials')}
+        />
+        
+        <FormField
+          icon={Building}
+          placeholder="Your practice or organization"
+          error={form.errors.practice}
+          registration={form.register('practice')}
+        />
+      </>
+    );
+  };
   
   return (
     <>
@@ -29,6 +53,8 @@ function SignupForm({ onSwitchToLogin, onSignupSuccess }) {
           placeholder="What should we call you?"
           registration={form.register('preferredName')}
         />
+        
+        {renderTherapistFields()}
         
         <div className="form-field-wrapper">
           <FormField
@@ -68,6 +94,7 @@ function SignupForm({ onSwitchToLogin, onSignupSuccess }) {
           register={form.register} 
           error={form.errors.disclaimer}
           setValue={form.setValue}
+          userType={userType}
         />
 
         {form.error && (
@@ -87,12 +114,26 @@ function SignupForm({ onSwitchToLogin, onSignupSuccess }) {
           }
         </button>
       </form>
-      <button 
-        className="auth-toggle-btn"
-        onClick={onSwitchToLogin}
-      >
-        Already have an account? Log in
-      </button>
+      
+      <div className="auth-links">
+        <button 
+          className="auth-toggle-btn"
+          onClick={onSwitchToLogin}
+        >
+          Already have an account? Log in
+        </button>
+        
+        {onBackToUserTypeSelection && (
+          <button 
+            type="button"
+            className="auth-toggle-btn back-link"
+            onClick={onBackToUserTypeSelection}
+          >
+            <ArrowLeft size={14} />
+            <span>Back to user type selection</span>
+          </button>
+        )}
+      </div>
     </>
   );
 }

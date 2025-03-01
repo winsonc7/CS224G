@@ -39,11 +39,21 @@ export const authSchema = yup.object().shape({
       then: schema => schema.required('Date of birth is required')
     }),
   disclaimer: yup.boolean()
-  .when('$isSignup', {
-    is: true,
-    then: schema => schema
-      .required('You must accept the terms and disclaimer')
-      .oneOf([true], 'You must accept the terms and disclaimer')
-  }),
-  
+    .when('$isSignup', {
+      is: true,
+      then: schema => schema
+        .required('You must accept the terms and disclaimer')
+        .oneOf([true], 'You must accept the terms and disclaimer')
+    }),
+  // Therapist-specific fields
+  credentials: yup.string()
+    .when(['$isSignup', '$userType'], {
+      is: (isSignup, userType) => isSignup && userType === 'therapist',
+      then: schema => schema.required('Professional credentials are required')
+    }),
+  practice: yup.string()
+    .when(['$isSignup', '$userType'], {
+      is: (isSignup, userType) => isSignup && userType === 'therapist',
+      then: schema => schema.required('Practice or organization is required')
+    }),
 });

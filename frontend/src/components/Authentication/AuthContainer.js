@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import SignupSuccess from './components/SignupSuccess';
+import UserTypeSelection from './components/UserTypeSelection';
 import './AuthContainer.css';
 
 function AuthContainer() {
   const [currentView, setCurrentView] = useState('login');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [userType, setUserType] = useState(null);
   
   const handleViewChange = (newView) => {
     setIsTransitioning(true);
@@ -22,12 +24,24 @@ function AuthContainer() {
   const renderContent = () => {
     switch(currentView) {
       case 'login':
-        return <LoginForm onSwitchToSignup={() => handleViewChange('signup')} />;
+        return <LoginForm onSwitchToSignup={() => handleViewChange('userTypeSelection')} />;
+      case 'userTypeSelection':
+        return (
+          <UserTypeSelection 
+            onSelectUserType={(type) => {
+              setUserType(type);
+              handleViewChange('signup');
+            }}
+            onSwitchToLogin={() => handleViewChange('login')}
+          />
+        );
       case 'signup':
         return (
           <SignupForm 
+            userType={userType}
             onSwitchToLogin={() => handleViewChange('login')}
             onSignupSuccess={() => handleViewChange('success')}
+            onBackToUserTypeSelection={() => handleViewChange('userTypeSelection')}
           />
         );
       case 'success':
@@ -42,8 +56,10 @@ function AuthContainer() {
     switch(currentView) {
       case 'login':
         return 'Welcome Back';
+      case 'userTypeSelection':
+        return 'Choose Your Path';
       case 'signup':
-        return 'Begin Your Journey';
+        return userType === 'therapist' ? 'Join as a Therapist' : 'Begin Your Journey';
       case 'success':
         return 'Welcome to Talk2Me';
       default:
