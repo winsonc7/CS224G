@@ -44,7 +44,7 @@
 
 .sidebar__toggle-button:hover {
   background-color: #f0f0f0;
-  color: #00a914;
+  color: #3f2c94;
 }
 
 /* Navigation Menu */
@@ -76,13 +76,13 @@
 }
 
 .sidebar__menu-item:hover {
-  background: #ffffe2;
-  color: #00a914;
+  background: rgba(63, 44, 148, 0.1);
+  color: #3f2c94;
 }
 
 .sidebar__menu-item--active {
-  background: #ffffe2;
-  color: #00a914;
+  background: rgba(63, 44, 148, 0.1);
+  color: #3f2c94;
 }
 
 /* Footer Section */
@@ -138,8 +138,9 @@
 /* Footer Actions */
 .sidebar__footer-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
+  justify-content: space-between;
 }
 
 /* Common Footer Link Style */
@@ -156,16 +157,18 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
+  flex: 1;
+  justify-content: center;
 }
 
 .sidebar__footer-link:hover {
-  background: #f8f8f8;
-  color: #00a914;
+  background: rgba(63, 44, 148, 0.1);
+  color: #3f2c94;
 }
 
 .sidebar__footer-link--active {
-  background: #f8f8f8;
-  color: #00a914;
+  background: rgba(63, 44, 148, 0.1);
+  color: #3f2c94;
 }
 
 /* Logout Link - Specific Style */
@@ -174,7 +177,7 @@
 }
 
 .sidebar__logout-link:hover {
-  background: #fff5f5;
+  background: rgba(229, 62, 62, 0.1);
   color: #e53e3e;
 }
 
@@ -208,6 +211,7 @@
 }
 
 .sidebar.collapsed .sidebar__footer-actions {
+  flex-direction: column;
   align-items: center;
 }
 
