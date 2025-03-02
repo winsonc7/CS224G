@@ -47,7 +47,7 @@ export const useAuthForm = (isLogin, { onSignInSuccess, onSignUpSuccess, signIn,
         });
         
         if (signInError) {
-          throw signInError;
+          throw new Error('Invalid email or password');
         }
         
         onSignInSuccess();

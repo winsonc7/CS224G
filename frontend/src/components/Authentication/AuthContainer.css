@@ -10,12 +10,13 @@
   align-items: center;
   min-height: 100vh;
   padding: 1rem;
-  background: linear-gradient(135deg, #fff767 0%, #d3ffd3 100%);
+  background: #faf8ff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .auth-window {
   width: 90%;
-  max-width: 400px;
+  max-width: 450px;
   background: white;
   border-radius: 20px;
   box-shadow: 0 12px 28px rgba(139, 92, 246, 0.15);
@@ -26,6 +27,7 @@
   flex-direction: column;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
+  animation: slideIn 0.3s ease-out;
 }
 
 .auth-window.transitioning {
@@ -33,17 +35,14 @@
 }
 
 .auth-title {
-  font-family: 'Outfit', sans-serif;
-  background: linear-gradient(135deg, #d0ff00 0%, #29ef2c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: 2.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #3f2c94;
+  font-size: 2rem;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.025em;
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   animation: gentleFade 0.6s ease-out;
 }
 
@@ -103,22 +102,23 @@
 .input-icon {
   position: absolute;
   left: 1rem;
-  color: #00a914;
+  color: #8b5cf6;
 }
 
 .form-input {
   width: 100%;
-  background: #ffffe2;
+  background: white;
   border: 1px solid rgba(139, 92, 246, 0.1);
   border-radius: 12px;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
   font-size: 0.875rem;
   transition: all 0.2s ease;
+  color: #2d3748;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #9fd85f;
+  border-color: #8b5cf6;
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
@@ -128,7 +128,7 @@
 }
 
 .form-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(60%) sepia(59%) saturate(638%) hue-rotate(60deg) brightness(95%);
+  filter: invert(40%) sepia(50%) saturate(400%) hue-rotate(220deg) brightness(95%);
   cursor: pointer;
 }
 
@@ -152,17 +152,17 @@
   min-width: 18px;
   min-height: 18px;
   margin-top: 3px;
-  border: 1px solid rgba(8, 94, 0, 0.3);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 4px;
   background-color: white;
-  accent-color: #29ef2c;
+  accent-color: #8b5cf6;
 }
 
 .checkbox-label {
   font-size: 0.8rem;
   line-height: 1.6;
   color: #6b7280;
-  font-family: 'Outfit', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: 0.01em;
   font-weight: 400;
 }
@@ -193,7 +193,7 @@
 .agreement-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #29ef2c;
+  accent-color: #8b5cf6;
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -221,7 +221,7 @@
   gap: 0.25rem;
   background: transparent;
   border: none;
-  color: #3bd100;
+  color: #8b5cf6;
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
@@ -231,8 +231,8 @@
 }
 
 .view-terms-btn:hover {
-  color: #00a506;
-  background-color: rgba(59, 209, 0, 0.05);
+  color: #7c3aed;
+  background-color: rgba(139, 92, 246, 0.05);
   text-decoration: underline;
 }
 
@@ -242,7 +242,7 @@
   gap: 0.25rem;
   margin-top: 0.5rem;
   font-size: 0.75rem;
-  color: #22c55e;
+  color: #8b5cf6;
 }
 
 .check-icon {
@@ -297,7 +297,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0;
-  background: linear-gradient(135deg, #d0ff00 0%, #29ef2c 100%);
+  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -356,7 +356,7 @@
 
 .scroll-indicator {
   font-size: 0.875rem;
-  color: #3bd100;
+  color: #8b5cf6;
   text-align: center;
 }
 
@@ -384,7 +384,7 @@
 
 .modal-accept-btn {
   padding: 0.5rem 1.25rem;
-  background: #8dce2a;
+  background: #8b5cf6;
   border: none;
   border-radius: 8px;
   color: white;
@@ -394,11 +394,11 @@
 }
 
 .modal-accept-btn:hover:not(:disabled) {
-  background: #3bd100;
+  background: #7c3aed;
 }
 
 .modal-accept-btn:disabled {
-  background: #8fff45;
+  background: #c4b5fd;
   cursor: not-allowed;
 }
 
@@ -406,44 +406,54 @@
 /* Button Styles        */
 /* ==================== */
 .submit-btn {
-  background: #8dce2a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #8b5cf6;
   color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
   border: none;
-  border-radius: 12px;
-  padding: 1rem;
-  font-weight: 600;
-  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: 0.5rem;
-  box-shadow: 0 4px 6px rgba(141, 206, 42, 0.2);
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #3bd100;
-  box-shadow: 0 6px 8px rgba(8, 94, 0, 0.25);
+  background: #7c3aed;
+  box-shadow: 0 4px 8px rgba(139, 92, 246, 0.25);
 }
 
 .submit-btn:disabled {
-  background: #8fff45;
+  background: #cbd5e0;
+  color: #a0aec0;
   cursor: not-allowed;
   box-shadow: none;
 }
 
 .auth-toggle-btn {
-  width: 100%;
   background: transparent;
   border: none;
-  color: #63d330;
-  padding: 0.5rem;
-  cursor: pointer;
+  color: #8b5cf6;
   font-size: 0.875rem;
-  transition: color 0.2s ease;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem;
   margin-top: 0.5rem;
+  transition: color 0.2s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 100%;
 }
 
 .auth-toggle-btn:hover {
-  color: #00a506;
+  color: #7c3aed;
+  text-decoration: underline;
 }
 
 /* ==================== */
@@ -498,16 +508,43 @@
 }
 
 /* ==================== */
-/* Success View Styles  */
+/* Auth Success Styles  */
 /* ==================== */
 .auth-success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 1.5rem;
 }
 
-.success-icon {
+.auth-success__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: rgba(139, 92, 246, 0.1);
+  border-radius: 50%;
+}
+
+.auth-success__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #3f2c94;
+}
+
+.auth-success__message {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.auth-success__message:last-of-type {
   margin-bottom: 1.5rem;
-  color: #22c55e;
 }
 
 /* ==================== */
@@ -524,8 +561,14 @@
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes modalSlideUp {
@@ -545,7 +588,7 @@
 }
 
 .legal-modal-content::-webkit-scrollbar-thumb {
-  background-color: #a6e772;
+  background-color: #c4b5fd;
   border-radius: 8px;
 }
 
@@ -582,38 +625,37 @@
 .user-type-selection {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
+  gap: 1rem;
+  padding: 0.5rem;
 }
 
 .user-type-option {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  border-radius: 8px;
-  background-color: #f8f9fa;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-align: center;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.05);
 }
 
 .user-type-option:hover {
-  background-color: #e9ecef;
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
 }
 
 .user-type-option h3 {
-  margin: 12px 0 8px;
-  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  color: #3f2c94;
 }
 
 .user-type-option p {
   margin: 0;
-  font-size: 0.9rem;
-  color: #6c757d;
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
 /* Auth Links Container */
@@ -631,7 +673,7 @@
   gap: 8px;
   background: transparent;
   border: none;
-  color: #63d330;
+  color: #8b5cf6;
   padding: 8px 0;
   margin-bottom: 16px;
   cursor: pointer;
@@ -641,7 +683,7 @@
 }
 
 .back-button:hover {
-  color: #00a506;
+  color: #7c3aed;
   text-decoration: underline;
 }
 
@@ -659,7 +701,7 @@
   align-items: center;
   gap: 6px;
   justify-content: center;
-  color: #63d330;
+  color: #8b5cf6;
 }
 
 .back-link svg {

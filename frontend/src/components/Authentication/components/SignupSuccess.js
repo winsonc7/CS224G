@@ -3,20 +3,20 @@ import { CheckCircle2 } from 'lucide-react';
 
 const SignupSuccess = ({ onLoginClick }) => (
   <div className="auth-success-content">
-    <div className="success-icon">
-      <CheckCircle2 size={48} className="text-green-500" />
+    <div className="auth-success__icon">
+      <CheckCircle2 size={48} color="#8b5cf6" />
     </div>
-    <h3 className="text-xl font-semibold mb-4 text-center">
+    <h3 className="auth-success__title">
       Successfully signed up!
     </h3>
-    <p className="text-center mb-2">
+    <p className="auth-success__message">
       Please check your email to verify your account.
     </p>
-    <p className="text-center mb-6">
+    <p className="auth-success__message">
       Once verified, you can log in.
     </p>
     <button 
-      className="submit-btn w-full"
+      className="submit-btn"
       onClick={onLoginClick}
     >
       Go to Login

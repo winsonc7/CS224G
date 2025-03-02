@@ -73,7 +73,7 @@ const LegalCheckbox = ({ register, error, setValue, userType = 'client' }) => {
           className="view-terms-btn"
           onClick={openModal}
         >
-          <FileText size={16} />
+          <FileText size={16} color="#8b5cf6" />
           <span>View Terms</span>
         </button>
       </div>
@@ -86,7 +86,7 @@ const LegalCheckbox = ({ register, error, setValue, userType = 'client' }) => {
       
       {hasAccepted && (
         <div className="terms-accepted">
-          <Check size={14} className="check-icon" />
+          <Check size={14} color="#8b5cf6" />
           <span>Terms accepted</span>
         </div>
       )}

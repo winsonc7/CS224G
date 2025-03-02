@@ -13,7 +13,7 @@ const FormField = ({
 }) => (
   <div className={`form-group ${error ? 'has-error' : ''}`}>
     <div className="input-with-icon">
-      <Icon size={20} className="input-icon" />
+      <Icon size={20} className="input-icon" color="#8b5cf6" />
       <input
         type={type}
         placeholder={placeholder}

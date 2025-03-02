@@ -9,7 +9,7 @@ function UserTypeSelection({ onSelectUserType, onSwitchToLogin }) {
           className="user-type-option"
           onClick={() => onSelectUserType('client')}
         >
-          <UserRound size={48} />
+          <UserRound size={48} color="#8b5cf6" />
           <h3>I'm seeking therapy</h3>
           <p>Find a therapist and start your mental health journey</p>
         </div>
@@ -18,7 +18,7 @@ function UserTypeSelection({ onSelectUserType, onSwitchToLogin }) {
           className="user-type-option"
           onClick={() => onSelectUserType('therapist')}
         >
-          <HeartPulse size={48} />
+          <HeartPulse size={48} color="#8b5cf6" />
           <h3>I'm a therapist</h3>
           <p>Create a profile and connect with clients who need your help</p>
         </div>

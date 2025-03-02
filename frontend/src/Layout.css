@@ -10,6 +10,7 @@
   margin-left: 240px;
   min-height: 100vh;
   width: calc(100% - 240px);
+  background: #faf8ff;
   display: flex;
   flex-direction: column;
   transition: margin-left 0.3s ease, width 0.3s ease;
