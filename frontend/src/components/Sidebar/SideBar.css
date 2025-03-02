@@ -94,6 +94,8 @@
   display: flex;
   align-items: center;
   padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.05);
 }
 
 .sidebar-user-avatar {
@@ -130,25 +132,47 @@
   white-space: nowrap;
 }
 
-/* Logout Link - New Style */
-.sidebar-logout-link {
+/* Footer Actions */
+.sidebar-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Common Footer Link Style */
+.sidebar-footer-link {
   display: flex;
   align-items: center;
   gap: 8px;
   background: transparent;
   border: none;
-  padding: 6px 8px;
-  margin-left: -8px;
+  padding: 8px 10px;
   border-radius: 6px;
   color: #667080;
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.sidebar-footer-link:hover {
+  background: #f8f8f8;
+  color: #00a914;
+}
+
+.sidebar-footer-link-active {
+  background: #f8f8f8;
+  color: #00a914;
+}
+
+/* Logout Link - Specific Style */
+.sidebar-logout-link {
+  color: #e53e3e;
 }
 
 .sidebar-logout-link:hover {
-  background: #f8f8f8;
-  color: #00a914;
+  background: #fff5f5;
+  color: #e53e3e;
 }
 
 /* Collapsed State Styles */
@@ -159,13 +183,14 @@
 
 .sidebar.collapsed .sidebar-menu-item span,
 .sidebar.collapsed .sidebar-user-info,
-.sidebar.collapsed .sidebar-logout-link span {
+.sidebar.collapsed .sidebar-footer-link span {
   display: none;
 }
 
 .sidebar.collapsed .sidebar-user {
   justify-content: center;
   padding: 12px 0;
+  margin-bottom: 12px;
 }
 
 .sidebar.collapsed .sidebar-user-avatar {
@@ -179,8 +204,11 @@
   align-items: center;
 }
 
-.sidebar.collapsed .sidebar-logout-link {
-  margin: 0;
+.sidebar.collapsed .sidebar-footer-actions {
+  align-items: center;
+}
+
+.sidebar.collapsed .sidebar-footer-link {
   padding: 8px;
   justify-content: center;
 }
@@ -226,14 +254,22 @@
   
   .sidebar-user, .sidebar.collapsed .sidebar-user {
     display: none;
+    border-bottom: none;
+    padding: 0;
+    margin: 0;
   }
   
-  .sidebar-logout-link, .sidebar.collapsed .sidebar-logout-link {
+  .sidebar-footer-actions {
+    flex-direction: row;
+    gap: 4px;
+  }
+  
+  .sidebar-footer-link, .sidebar.collapsed .sidebar-footer-link {
     padding: 8px;
     margin: 0;
   }
   
-  .sidebar-logout-link span, .sidebar.collapsed .sidebar-logout-link span {
+  .sidebar-footer-link span, .sidebar.collapsed .sidebar-footer-link span {
     display: none;
   }
 }

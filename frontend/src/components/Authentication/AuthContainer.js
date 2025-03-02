@@ -68,7 +68,7 @@ function AuthContainer() {
   };
   
   return (
-    <div className="app-container">
+    <div className="auth-app-container">
       <div className={`auth-window ${isTransitioning ? "transitioning" : ""}`}>
         <h2 className="auth-title">{getTitle()}</h2>
         <div className="auth-form-container">

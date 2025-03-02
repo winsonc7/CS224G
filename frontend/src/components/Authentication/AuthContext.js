@@ -13,15 +13,24 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // Check for existing session when component mounts
-    const session = supabase.auth.getSession();
-    setUser(session?.user ?? null);
-    setLoading(false);
+    const getInitialSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      const session = data?.session;
+      
+      // Set user with session data
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+    
+    getInitialSession();
 
     // Subscribe to auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Update user state when auth state changes
-      setUser(session?.user ?? null);
-    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        // Update user state when auth state changes
+        setUser(session?.user ?? null);
+      }
+    );
 
     // Cleanup subscription on unmount
     return () => subscription.unsubscribe();
@@ -31,6 +40,13 @@ export function AuthProvider({ children }) {
   const value = {
     user,      // Current authenticated user
     loading,   // Loading state for initial auth check
+    
+    // User type helpers - read-only getters
+    userType: user?.user_metadata?.user_type,
+    isTherapist: user?.user_metadata?.user_type === 'therapist',
+    isClient: user?.user_metadata?.user_type === 'client',
+    
+    // Auth methods
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut()
@@ -51,7 +67,7 @@ export function AuthProvider({ children }) {
  * @returns {Object} Auth context value
  * 
  * Usage:
- * const { user, signIn, signUp, signOut } = useAuth();
+ * const { user, userType, isTherapist, isClient, signIn, signUp, signOut } = useAuth();
  */
 export function useAuth() {
   const context = useContext(AuthContext);

@@ -4,7 +4,7 @@
 /* ==================== */
 /* Container Styles     */
 /* ==================== */
-.app-container {
+.auth-app-container {
   display: flex;
   justify-content: center;
   align-items: center;

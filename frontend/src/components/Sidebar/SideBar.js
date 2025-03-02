@@ -1,13 +1,23 @@
 // components/Layout/SideBar.js
 import React from 'react';
-import { User, MessageSquare, Calendar, LayoutDashboardIcon, LogOut, Menu, ChevronLeft } from 'lucide-react';
+import { 
+  User, 
+  MessageSquare, 
+  Calendar, 
+  LayoutDashboard, 
+  Users,
+  Settings,
+  LogOut, 
+  Menu, 
+  ChevronLeft 
+} from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Authentication/AuthContext';
 import './SideBar.css';
 
-function SideBar({ collapsed, onToggle }) {
+function SideBar({ collapsed, onToggle, userType }) {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, isTherapist, isClient, signOut } = useAuth();
   
   const handleLogout = async () => {
     try {
@@ -16,6 +26,55 @@ function SideBar({ collapsed, onToggle }) {
     } catch (error) {
       console.error('Logout error:', error);
     }
+  };
+
+  // Determine navigation items based on user type
+  const getNavItems = () => {
+    // Default navigation items
+    const defaultItems = [
+      { 
+        path: '/dashboard', 
+        label: 'Dashboard', 
+        icon: <LayoutDashboard size={20} />
+      },
+      {
+        path: '/chat',
+        label: 'Chat',
+        icon: <MessageSquare size={20} />
+      }
+    ];
+    
+    // Therapist-specific items
+    if (userType === 'therapist' || isTherapist) {
+      return [
+        ...defaultItems,
+        {
+          path: '/clients',
+          label: 'Clients',
+          icon: <Users size={20} />
+        },
+        {
+          path: '/calendar',
+          label: 'Calendar',
+          icon: <Calendar size={20} />
+        }
+      ];
+    }
+    
+    // Client-specific items
+    if (userType === 'client' || isClient) {
+      return [
+        ...defaultItems,
+        {
+          path: '/sessions',
+          label: 'Sessions',
+          icon: <Calendar size={20} />
+        }
+      ];
+    }
+    
+    // Return default if userType is not specified
+    return defaultItems;
   };
 
   return (
@@ -27,30 +86,21 @@ function SideBar({ collapsed, onToggle }) {
       
       {/* Navigation Menu */}
       <div className="sidebar-menu">
-        <NavLink to="/dashboard" className={({ isActive }) => 
-            `sidebar-menu-item ${isActive ? 'sidebar-menu-item-active' : ''}`
-          }>
-            <LayoutDashboardIcon size={20} />
-            <span>Dashboard</span>
-        </NavLink>
-
-        <NavLink to="/chat" className={({ isActive }) => 
-          `sidebar-menu-item ${isActive ? 'sidebar-menu-item-active' : ''}`
-        }>
-          <MessageSquare size={20} />
-          <span>Chat</span>
-        </NavLink>
-        
-        <NavLink to="/history" className={({ isActive }) => 
-          `sidebar-menu-item ${isActive ? 'sidebar-menu-item-active' : ''}`
-        }>
-          <Calendar size={20} />
-          <span>Session History</span>
-        </NavLink>
-        
+        {getNavItems().map((item, index) => (
+          <NavLink 
+            key={index}
+            to={item.path} 
+            className={({ isActive }) => 
+              `sidebar-menu-item ${isActive ? 'sidebar-menu-item-active' : ''}`
+            }
+          >
+            {item.icon}
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
       </div>
       
-      {/* Footer with user info and logout */}
+      {/* Footer with user info, settings and logout */}
       <div className="sidebar-footer">
         <div className="sidebar-user">
           <div className="sidebar-user-avatar">
@@ -62,13 +112,25 @@ function SideBar({ collapsed, onToggle }) {
           </div>
         </div>
         
-        <button 
-          className="sidebar-logout-link"
-          onClick={handleLogout}
-        >
-          <LogOut size={16} />
-          <span>Logout</span>
-        </button>
+        <div className="sidebar-footer-actions">
+          <NavLink 
+            to="/settings" 
+            className={({ isActive }) => 
+              `sidebar-footer-link ${isActive ? 'sidebar-footer-link-active' : ''}`
+            }
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </NavLink>
+          
+          <button 
+            className="sidebar-footer-link sidebar-logout-link"
+            onClick={handleLogout}
+          >
+            <LogOut size={16} />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
     </div>
   );
