@@ -1,126 +1,133 @@
-.app-header {
-    position: sticky;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 24px;
-    z-index: 10;
-    height: 60px;
-    background-color: white;
-    border-bottom: 1px solid #e2e8f0;
+/* 
+ * Header Component Styles
+ */
+
+/* Main header container */
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  z-index: 10;
+  height: 60px;
+  background-color: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Logo styles */
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.header__logo-icon {
+  color: #29ef2c;
+}
+
+.header__logo-text {
+  color: #3f2c94;
+  font-weight: 700;
+}
+
+/* Header right section */
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Search component */
+.header__search {
+  position: relative;
+  width: 240px;
+}
+
+.header__search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.header__search-input:focus {
+  border-color: #3f2c94;
+}
+
+.header__search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #718096;
+}
+
+/* Action buttons */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header__action-button {
+  background: none;
+  border: none;
+  color: #4a5568;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__action-button:hover {
+  background-color: #f7fafc;
+  color: #3f2c94;
+}
+
+/* User info section */
+.header__user-info {
+  display: flex;
+  align-items: center;
+}
+
+.header__avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #3f2c94;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header {
+    padding: 8px 16px;
   }
   
-  .app-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 18px;
+  .header__logo {
+    font-size: 16px;
   }
   
-  .app-logo-icon {
-    color: #29ef2c;
+  .header__search {
+    width: 160px;
   }
-  
-  .app-logo-text {
-    color: #3f2c94;
-    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .header__search {
+    display: none;
   }
-  
-  /* Header right section */
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  
-  /* Search */
-  .header-search {
-    position: relative;
-    width: 240px;
-  }
-  
-  .header-search input {
-    width: 100%;
-    padding: 8px 12px 8px 36px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  
-  .header-search input:focus {
-    border-color: #3f2c94;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #718096;
-  }
-  
-  /* Actions */
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .header-action-button {
-    background: none;
-    border: none;
-    color: #4a5568;
-    padding: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .header-action-button:hover {
-    background-color: #f7fafc;
-    color: #3f2c94;
-  }
-  
-  /* User info */
-  .header-user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .header-avatar {
-    width: 32px;
-    height: 32px;
-    background-color: #3f2c94;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-  }
-  
-  @media (max-width: 768px) {
-    .app-header {
-      padding: 8px 16px;
-    }
-    
-    .app-logo {
-      font-size: 16px;
-    }
-    
-    .header-search {
-      width: 160px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .header-search {
-      display: none;
-    }
-  }
+}

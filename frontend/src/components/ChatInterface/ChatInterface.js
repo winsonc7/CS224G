@@ -169,40 +169,50 @@ function ChatInterface() {
   };
 
   return (
-    <div className="app-container">
+    <div className="chat__container">
       {!hasSelectedMode ? (
-        <div className="mode-selection">
-          <h1>Welcome to Talk2Me</h1>
-          <p>Choose how you'd like to interact:</p>
-          <div className="mode-buttons">
-          <button onClick={() => initializeChat(false)} className="mode-button text-mode">
-            <span className="mode-icon">
-                <span role="img" aria-label="keyboard">⌨️</span>
-            </span>
-            <span className="mode-label">Text Chat</span>
-            <span className="mode-description">Type to communicate</span>
+        <div className="chat__mode-selection">
+          <h1 className="chat__mode-selection-title">Welcome to Talk2Me</h1>
+          <p className="chat__mode-selection-subtitle">Choose how you'd like to interact:</p>
+          <div className="chat__mode-buttons">
+            <button onClick={() => initializeChat(false)} className="chat__mode-button">
+              <span className="chat__mode-icon">
+                <Keyboard size={32} />
+              </span>
+              <span className="chat__mode-label">Text Chat</span>
+              <span className="chat__mode-description">Type to communicate</span>
             </button>
-          <button onClick={() => initializeChat(true)} className="mode-button voice-mode">
-            <span className="mode-icon">
-                <span role="img" aria-label="microphone">🎤</span>
-            </span>
-            <span className="mode-label">Voice Chat</span>
-            <span className="mode-description">Speak to communicate</span>
-          </button>
+            <button onClick={() => initializeChat(true)} className="chat__mode-button">
+              <span className="chat__mode-icon">
+                <Mic size={32} />
+              </span>
+              <span className="chat__mode-label">Voice Chat</span>
+              <span className="chat__mode-description">Speak to communicate</span>
+            </button>
           </div>
         </div>
       ) : (
-        <div className="chat-layout">
-            <div className="chat-window">
-            <button onClick={handleBackButtonClick} className="back-button" title="Go back to chat mode selection">
-                <ArrowLeft size={20} />
-                <span>Change Chat Mode</span>
-                {isVoiceMode ? <Mic size={16} /> : <Keyboard size={16} />}
-            </button>
+        
+        <div className="chat__layout">
+          
+            <div className="chat__window">
             <MainContainer>
+            <button 
+                onClick={handleBackButtonClick} 
+                className="chat__back-button" 
+                title="Go back to chat mode selection"
+                aria-label="Change chat mode"
+            >
+                <ArrowLeft size={18} />
+                {isVoiceMode ? <Mic size={16} /> : <Keyboard size={16} />}
+                <span>Change Chat Mode</span>
+                
+            </button>
                 <ChatContainer>
+                  
                 <ConversationHeader>
                     <ConversationHeader.Content userName="Jennifer" />
+                    
                 </ConversationHeader>
                 <MessageList 
                 typingIndicator={isTyping ? <TypingIndicator content="Jennifer is thinking..." /> : null}
@@ -253,16 +263,16 @@ function ChatInterface() {
       
       {/* Warning Modal */}
       {showWarningModal && (
-        <div className="modal-overlay">
-          <div className="warning-modal">
-            <div className="warning-icon">⚠️</div>
-            <h3>Change Chat Mode?</h3>
-            <p>Your current conversation will be reset if you return to mode selection.</p>
-            <div className="modal-buttons">
-              <button className="modal-button cancel" onClick={cancelModeChange}>
+        <div className="chat__modal-overlay">
+          <div className="chat__warning-modal">
+            <div className="chat__warning-icon">⚠️</div>
+            <h3 className="chat__warning-modal-title">Change Chat Mode?</h3>
+            <p className="chat__warning-modal-text">Your current conversation will be reset if you return to mode selection.</p>
+            <div className="chat__modal-buttons">
+              <button className="chat__modal-button chat__modal-button--cancel" onClick={cancelModeChange}>
                 Cancel
               </button>
-              <button className="modal-button confirm" onClick={confirmModeChange}>
+              <button className="chat__modal-button chat__modal-button--confirm" onClick={confirmModeChange}>
                 Change Mode
               </button>
             </div>

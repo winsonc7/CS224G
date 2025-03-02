@@ -1,21 +1,28 @@
+/* 
+ * ClientsPage Component Styles
+ * Styles for the therapist client management page
+ */
+
+/* Main page container */
 .clients-page {
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.clients-header {
+/* Page header */
+.clients-page__header {
   margin-bottom: 24px;
 }
 
-.clients-header h1 {
+.clients-page__title {
   margin: 0 0 8px 0;
   font-size: 24px;
   font-weight: 600;
   color: #2d3748;
 }
 
-.clients-header p {
+.clients-page__subtitle {
   margin: 0;
   color: #718096;
   font-size: 14px;
@@ -30,7 +37,7 @@
   overflow: hidden;
 }
 
-.clients-list-header {
+.clients-list__header {
   display: flex;
   padding: 12px 16px;
   background-color: #f7fafc;
@@ -40,38 +47,39 @@
   font-size: 14px;
 }
 
-.client-row {
+.clients-list__row {
   display: flex;
   padding: 12px 16px;
   border-bottom: 1px solid #e2e8f0;
   transition: background-color 0.2s;
 }
 
-.client-row:last-child {
+.clients-list__row:last-child {
   border-bottom: none;
 }
 
-.client-row:hover {
+.clients-list__row:hover {
   background-color: #f7fafc;
 }
 
-.client-col-name {
+/* Column layouts */
+.clients-list__col--name {
   flex: 2;
   font-weight: 500;
 }
 
-.client-col-status {
+.clients-list__col--status {
   flex: 1;
   display: flex;
   align-items: center;
 }
 
-.client-col-session {
+.clients-list__col--session {
   flex: 1;
   color: #718096;
 }
 
-.client-col-actions {
+.clients-list__col--actions {
   flex: 1;
   display: flex;
   gap: 8px;
@@ -79,7 +87,7 @@
 }
 
 /* Status Badges */
-.status-badge {
+.clients-list__status {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
@@ -87,23 +95,23 @@
   text-transform: capitalize;
 }
 
-.status-active {
+.clients-list__status--active {
   background-color: #e6fffa;
   color: #2c7a7b;
 }
 
-.status-pending {
+.clients-list__status--pending {
   background-color: #fefcbf;
   color: #975a16;
 }
 
-.status-inactive {
+.clients-list__status--inactive {
   background-color: #fed7d7;
   color: #c53030;
 }
 
 /* Action Buttons */
-.client-action-button {
+.clients-list__action {
   padding: 6px 12px;
   border: 1px solid #e2e8f0;
   background-color: white;
@@ -114,38 +122,38 @@
   transition: all 0.2s;
 }
 
-.client-action-button:hover {
+.clients-list__action:hover {
   background-color: #f7fafc;
   border-color: #cbd5e0;
 }
 
-.client-action-button:first-child {
+.clients-list__action--primary {
   background-color: #3f2c94;
   color: white;
   border-color: #3f2c94;
 }
 
-.client-action-button:first-child:hover {
+.clients-list__action--primary:hover {
   background-color: #352480;
   border-color: #352480;
 }
 
 /* Footer */
-.clients-footer {
+.clients-page__footer {
   color: #718096;
   font-size: 14px;
   text-align: center;
 }
 
-/* Coming Soon Styles */
-.coming-soon-container {
+/* Coming Soon placeholder */
+.clients-page__coming-soon {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 400px;
 }
 
-.coming-soon-message {
+.clients-page__coming-soon-message {
   text-align: center;
   padding: 48px;
   background-color: white;
@@ -155,41 +163,41 @@
   width: 100%;
 }
 
-.coming-soon-message h2 {
+.clients-page__coming-soon-title {
   font-size: 24px;
   margin-bottom: 16px;
   color: #3f2c94;
 }
 
-.coming-soon-message p {
+.clients-page__coming-soon-text {
   color: #718096;
   margin-bottom: 8px;
   font-size: 16px;
 }
 
 /* Unauthorized message */
-.unauthorized-message {
+.clients-page__unauthorized {
   text-align: center;
   padding: 48px 24px;
   color: #e53e3e;
 }
 
-.unauthorized-message h2 {
+.clients-page__unauthorized-title {
   margin-top: 0;
   font-size: 24px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .client-col-session {
+  .clients-list__col--session {
     display: none;
   }
   
-  .client-col-name {
+  .clients-list__col--name {
     flex: 1;
   }
 
-  .coming-soon-message {
+  .clients-page__coming-soon-message {
     padding: 32px 16px;
   }
 } 

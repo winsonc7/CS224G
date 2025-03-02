@@ -80,18 +80,18 @@ function SideBar({ collapsed, onToggle, userType }) {
   return (
     <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       {/* Toggle button with updated icon based on state */}
-      <button className="sidebar-toggle-button" onClick={onToggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
+      <button className="sidebar__toggle-button" onClick={onToggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
         {collapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
       </button>
       
       {/* Navigation Menu */}
-      <div className="sidebar-menu">
+      <div className="sidebar__menu">
         {getNavItems().map((item, index) => (
           <NavLink 
             key={index}
             to={item.path} 
             className={({ isActive }) => 
-              `sidebar-menu-item ${isActive ? 'sidebar-menu-item-active' : ''}`
+              `sidebar__menu-item ${isActive ? 'sidebar__menu-item--active' : ''}`
             }
           >
             {item.icon}
@@ -101,22 +101,22 @@ function SideBar({ collapsed, onToggle, userType }) {
       </div>
       
       {/* Footer with user info, settings and logout */}
-      <div className="sidebar-footer">
-        <div className="sidebar-user">
-          <div className="sidebar-user-avatar">
+      <div className="sidebar__footer">
+        <div className="sidebar__user">
+          <div className="sidebar__user-avatar">
             <User size={18} />
           </div>
-          <div className="sidebar-user-info">
-            <span className="sidebar-user-label">Signed in as</span>
-            <p className="sidebar-user-name">{user?.email || 'User'}</p>
+          <div className="sidebar__user-info">
+            <span className="sidebar__user-label">Signed in as</span>
+            <p className="sidebar__user-name">{user?.email || 'User'}</p>
           </div>
         </div>
         
-        <div className="sidebar-footer-actions">
+        <div className="sidebar__footer-actions">
           <NavLink 
             to="/settings" 
             className={({ isActive }) => 
-              `sidebar-footer-link ${isActive ? 'sidebar-footer-link-active' : ''}`
+              `sidebar__footer-link ${isActive ? 'sidebar__footer-link--active' : ''}`
             }
           >
             <Settings size={16} />
@@ -124,7 +124,7 @@ function SideBar({ collapsed, onToggle, userType }) {
           </NavLink>
           
           <button 
-            className="sidebar-footer-link sidebar-logout-link"
+            className="sidebar__footer-link sidebar__logout-link"
             onClick={handleLogout}
           >
             <LogOut size={16} />

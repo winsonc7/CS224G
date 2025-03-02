@@ -1,38 +1,41 @@
-/* Dashboard.css - Styles for both therapist and client dashboards */
+/* 
+ * Dashboard Component Styles
+ * Shared styles for both therapist and client dashboards
+ */
 
-/* Common Dashboard Styles */
-.dashboard-container {
+/* Main dashboard layout */
+.dashboard {
   max-width: 1200px;
   padding: 0 20px;
   margin: 0 auto;
 }
 
-.dashboard-header {
+.dashboard__header {
   margin-bottom: 24px;
 }
 
-.dashboard-header h1 {
+.dashboard__header-title {
   margin: 0 0 8px 0;
   font-size: 28px;
   font-weight: 600;
   color: #2d3748;
 }
 
-.dashboard-header p {
+.dashboard__header-subtitle {
   margin: 0;
   color: #718096;
   font-size: 16px;
 }
 
-/* Coming Soon Styles */
-.coming-soon-container {
+/* Coming Soon placeholder */
+.dashboard__coming-soon {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 400px;
 }
 
-.coming-soon-message {
+.dashboard__coming-soon-message {
   text-align: center;
   padding: 48px;
   background-color: white;
@@ -42,13 +45,13 @@
   width: 100%;
 }
 
-.coming-soon-message h2 {
+.dashboard__coming-soon-title {
   font-size: 24px;
   margin-bottom: 16px;
   color: #3f2c94;
 }
 
-.coming-soon-message p {
+.dashboard__coming-soon-text {
   color: #718096;
   margin-bottom: 8px;
   font-size: 16px;
@@ -56,15 +59,15 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .dashboard-container {
+  .dashboard {
     padding: 0 16px;
   }
   
-  .dashboard-header h1 {
+  .dashboard__header-title {
     font-size: 24px;
   }
   
-  .coming-soon-message {
+  .dashboard__coming-soon-message {
     padding: 32px 16px;
   }
 } 

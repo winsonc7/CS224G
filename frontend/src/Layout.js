@@ -29,15 +29,15 @@ function Layout() {
   // Render therapist layout
   if (isTherapist) {
     return (
-      <div className="therapist-layout">
+      <div className="layout">
         <SideBar 
           collapsed={sidebarCollapsed} 
           onToggle={toggleSidebar}
           userType="therapist"
         />
-        <div className={`layout-main ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+        <div className={`layout__main ${sidebarCollapsed ? 'layout__main--sidebar-collapsed' : ''}`}>
           <Header userType="therapist" />
-          <main className="layout-content">
+          <main className="layout__content">
             <Outlet />
           </main>
         </div>
@@ -48,15 +48,15 @@ function Layout() {
   // Render client layout
   if (isClient) {
     return (
-      <div className="client-layout">
+      <div className="layout">
         <SideBar 
           collapsed={sidebarCollapsed} 
           onToggle={toggleSidebar}
           userType="client"
         />
-        <div className={`layout-main ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+        <div className={`layout__main ${sidebarCollapsed ? 'layout__main--sidebar-collapsed' : ''}`}>
           <Header userType="client" />
-          <main className="layout-content">
+          <main className="layout__content">
             <Outlet />
           </main>
         </div>
@@ -66,18 +66,18 @@ function Layout() {
 
   // Default layout (fallback)
   return (
-    <>
+    <div className="layout">
       <SideBar 
         collapsed={sidebarCollapsed} 
         onToggle={toggleSidebar} 
       />
-      <div className={`layout-main ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      <div className={`layout__main ${sidebarCollapsed ? 'layout__main--sidebar-collapsed' : ''}`}>
         <Header />
-        <main className="layout-content">
+        <main className="layout__content">
           <Outlet />
         </main>
       </div>
-    </>
+    </div>
   );
 }
 
