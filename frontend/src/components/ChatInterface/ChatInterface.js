@@ -169,9 +169,9 @@ function ChatInterface() {
   };
 
   return (
-    <div className="chat__container">
+    <div className="page-container">
       {!hasSelectedMode ? (
-        <div className="chat__mode-selection">
+        <div className="content-container chat-container chat__mode-selection">
           <h1 className="chat__mode-selection-title">Welcome to Talk2Me</h1>
           <p className="chat__mode-selection-subtitle">Choose how you'd like to interact:</p>
           <div className="chat__mode-buttons">
@@ -192,10 +192,8 @@ function ChatInterface() {
           </div>
         </div>
       ) : (
-        
-        <div className="chat__layout">
-          
-            <div className="chat__window">
+        <div className="content-container chat-container">
+          <div className="chat__window">
             <MainContainer>
             <button 
                 onClick={handleBackButtonClick} 

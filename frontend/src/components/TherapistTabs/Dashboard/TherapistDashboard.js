@@ -1,14 +1,14 @@
 import React from 'react';
-import './Dashboard.css';
+import '../../../components/shared/Container.css';
 
 /**
  * Dashboard component specifically for therapists
  */
 const TherapistDashboard = () => {
   return (
-    <div className="therapist-dashboard">
-      <div className="dashboard-container">
-        <div className="dashboard-header">
+    <div className="page-container">
+      <div className="content-container">
+        <div className="content-header">
           <h1>Therapist Dashboard</h1>
           <p>Welcome to your therapist dashboard</p>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../Authentication/AuthContext';
+import { useAuth } from '../../Authentication/AuthContext';
 import { Search, Bell, HelpCircle } from 'lucide-react';
 import './Header.css';
 

@@ -12,10 +12,10 @@ import {
   ChevronLeft 
 } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../Authentication/AuthContext';
-import './SideBar.css';
+import { useAuth } from '../../Authentication/AuthContext';
+import './Sidebar.css';
 
-function SideBar({ collapsed, onToggle, userType }) {
+function Sidebar({ collapsed, onToggle, userType }) {
   const navigate = useNavigate();
   const { user, isTherapist, isClient, signOut } = useAuth();
   
@@ -30,13 +30,8 @@ function SideBar({ collapsed, onToggle, userType }) {
 
   // Determine navigation items based on user type
   const getNavItems = () => {
-    // Default navigation items
+    // Default navigation item (chat only)
     const defaultItems = [
-      { 
-        path: '/dashboard', 
-        label: 'Dashboard', 
-        icon: <LayoutDashboard size={20} />
-      },
       {
         path: '/chat',
         label: 'Chat',
@@ -47,6 +42,11 @@ function SideBar({ collapsed, onToggle, userType }) {
     // Therapist-specific items
     if (userType === 'therapist' || isTherapist) {
       return [
+        { 
+          path: '/therapist-dashboard', 
+          label: 'Dashboard', 
+          icon: <LayoutDashboard size={20} />
+        },
         ...defaultItems,
         {
           path: '/clients',
@@ -64,6 +64,11 @@ function SideBar({ collapsed, onToggle, userType }) {
     // Client-specific items
     if (userType === 'client' || isClient) {
       return [
+        { 
+          path: '/client-dashboard', 
+          label: 'Dashboard', 
+          icon: <LayoutDashboard size={20} />
+        },
         ...defaultItems,
         {
           path: '/sessions',
@@ -136,4 +141,4 @@ function SideBar({ collapsed, onToggle, userType }) {
   );
 }
 
-export default SideBar;
+export default Sidebar;

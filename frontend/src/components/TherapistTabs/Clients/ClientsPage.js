@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../Authentication/AuthContext';
-import './ClientsPage.css';
+import '../../../components/shared/Container.css';
 
 /**
  * Clients page for therapists
@@ -19,17 +19,19 @@ const ClientsPage = () => {
   }
   
   return (
-    <div className="clients-page">
-      <div className="clients-header">
-        <h1>My Clients</h1>
-        <p>Manage your client relationships</p>
-      </div>
-      
-      <div className="coming-soon-container">
-        <div className="coming-soon-message">
-          <h2>Coming Soon</h2>
-          <p>The client management interface is currently under development.</p>
-          <p>You'll be able to view and manage your clients here soon.</p>
+    <div className="page-container">
+      <div className="content-container">
+        <div className="content-header">
+          <h1>My Clients</h1>
+          <p>Manage your client relationships</p>
+        </div>
+        
+        <div className="coming-soon-container">
+          <div className="coming-soon-message">
+            <h2>Coming Soon</h2>
+            <p>The client management interface is currently under development.</p>
+            <p>You'll be able to view and manage your clients here soon.</p>
+          </div>
         </div>
       </div>
     </div>

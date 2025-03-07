@@ -5,8 +5,12 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import Layout from './Layout';
 import ChatInterface from './components/ChatInterface/ChatInterface'; 
 import AuthContainer from './components/Authentication/AuthContainer';
-import Dashboard from './components/Dashboards/Dashboard';
+import ClientDashboard from './components/UserTabs/Dashboard/ClientDashboard';
+import TherapistDashboard from './components/TherapistTabs/Dashboard/TherapistDashboard';
 import ClientsPage from './components/TherapistTabs/Clients/ClientsPage';
+import CalendarPage from './components/TherapistTabs/Calendar/CalendarPage';
+import SessionsPage from './components/UserTabs/Sessions/SessionsPage';
+import SettingsPage from './components/Settings/SettingsPage';
 
 function App() {
   return (
@@ -19,23 +23,24 @@ function App() {
           
           {/* Layout wrapper for authenticated routes */}
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            {/* Dashboard */}
-            <Route path="/dashboard" element={<Dashboard />} />
             
             {/* Therapist routes */}
+            <Route path="/therapist-dashboard" element={<TherapistDashboard />} />
             <Route path="/clients" element={<ClientsPage />} />
-            <Route path="/calendar" element={<div>Calendar (Coming Soon)</div>} />
+            <Route path="/calendar" element={<CalendarPage />} />
             
             {/* Client routes */}
-            <Route path="/sessions" element={<div>Sessions (Coming Soon)</div>} />
+            <Route path="/client-dashboard" element={<ClientDashboard />} />
+            <Route path="/sessions" element={<SessionsPage />} />
             
             {/* Common routes */}
             <Route path="/chat" element={<ChatInterface />} />
-            <Route path="/settings" element={<div>Settings (Coming Soon)</div>} />
+            <Route path="/settings" element={<SettingsPage />} />
+            
+            {/* Default redirect based on user type handled in Layout component */}
+            <Route path="/" element={<Navigate to="/chat" />} />
+            <Route path="*" element={<Navigate to="/chat" />} />
           </Route>
-          
-          {/* Default redirect */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
