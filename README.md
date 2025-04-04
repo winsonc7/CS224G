@@ -6,6 +6,8 @@ Info on general sprint progress and individual contributions are in the `progres
 
 # Project Setup 🤖
 
+**(NOTE: The project can no longer be run since we have removed credentials to make the repo public.)**
+
 ## 1. Clone repo
 
 To begin, clone the repository to your local machine using the following command:
@@ -28,11 +30,11 @@ To run the agent, you'll need an OpenAI API key.
   In this .env file, add your OpenAI API key, our Supabase environment variables and Google Cloud service account key env variable:
   ```
   OPENAI_API_KEY=xxxxx
-  SUPABASE_URL=https://trrdexwjqyxrnznydglv.supabase.co
-  SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRycmRleHdqcXl4cm56bnlkZ2x2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwMjgyMzMsImV4cCI6MjA1NTYwNDIzM30.oumkAp8lkQmCsT-lQ-WWqf33TKY6zMOwa2LtcgmqAEY
-  GOOGLE_APPLICATION_CREDENTIALS=talk2me-451917-c7fe6547aa36.json
+  SUPABASE_URL=xxxxx
+  SUPABASE_API_KEY=xxxxx
+  GOOGLE_APPLICATION_CREDENTIALS=xxxxx
   ```
-  (We've privated this project in the meantime to prevent this key from being exposed to the public.)
+  (NOTE: We've since deleted credentials to make the repo public.)
   
   Replace `xxxxx` with your actual API key.
 
@@ -41,14 +43,14 @@ To run the agent, you'll need an OpenAI API key.
   In this .env file, add our Supabase environment variables again (**please make note of the different naming**):
 
   ```
-  REACT_APP_SUPABASE_URL=https://trrdexwjqyxrnznydglv.supabase.co
-  REACT_APP_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRycmRleHdqcXl4cm56bnlkZ2x2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwMjgyMzMsImV4cCI6MjA1NTYwNDIzM30.oumkAp8lkQmCsT-lQ-WWqf33TKY6zMOwa2LtcgmqAEY
+  REACT_APP_SUPABASE_URL=xxxxx
+  REACT_APP_SUPABASE_ANON_KEY=xxxxx
   ```
 
 ### c. Authorize with Google Cloud API
 - Activate service account for Talk2Me project
   ```
-  gcloud auth activate-service-account --key-file=talk2me-451917-c7fe6547aa36.json
+  gcloud auth activate-service-account --key-file=xxxxx
   ```
 - [Optional] Check the service account is active
   ```
